@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/chess"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="55dp"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:gravity="center">
+        
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CHESS"
+            android:textAlignment="center"
+            android:textSize="60pt"
+            android:id="@+id/appName"
+            android:textColor="@color/white"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="left"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text=" Start "
+                android:background="#00ff0000"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:id="@+id/startButton"
+                android:textSize="18pt"/>
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text=" Help "
+                android:background="#00ff0000"
+                android:textColor="@color/white"
+                android:layout_marginTop="8dp"
+                android:textAlignment="center"
+                android:id="@+id/helpButton"
+                android:textSize="18pt"/>
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:text=" Quit "
+                android:background="#00ff0000"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/white"
+                android:textAlignment="center"
+                android:id="@+id/quitButton"
+                android:textSize="18pt"/>
+
+        </LinearLayout>
+
+        
+    </LinearLayout>
+
+</LinearLayout>

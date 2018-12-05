@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">chessTeample</string>
+    <string name="P">PAWN</string>
+    <string name="R">ROOK</string>
+    <string name="N">KNIGHT</string>
+    <string name="B">BISHOP</string>
+    <string name="Q">Queen</string>
+    <string name="K">KING</string>
+    <string name="NONE">NONE</string>
+</resources>
