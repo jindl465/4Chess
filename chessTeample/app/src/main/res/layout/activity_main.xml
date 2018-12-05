@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:text="CHESS"
             android:textAlignment="center"
-            android:textSize="60pt"
+            android:textSize="40pt"
             android:id="@+id/appName"
             android:textColor="@color/white"/>
 
@@ -39,7 +39,7 @@
                 android:textColor="@color/white"
                 android:textAlignment="center"
                 android:id="@+id/startButton"
-                android:textSize="18pt"/>
+                android:textSize="13pt"/>
 
             <Button
                 android:layout_width="150dp"
@@ -50,7 +50,7 @@
                 android:layout_marginTop="8dp"
                 android:textAlignment="center"
                 android:id="@+id/helpButton"
-                android:textSize="18pt"/>
+                android:textSize="13pt"/>
 
             <Button
                 android:layout_width="150dp"
@@ -61,7 +61,7 @@
                 android:textColor="@color/white"
                 android:textAlignment="center"
                 android:id="@+id/quitButton"
-                android:textSize="18pt"/>
+                android:textSize="13pt"/>
 
         </LinearLayout>
 

@@ -48,6 +48,7 @@ public class Position {
         }
 
         if (my >= 3 && my <= 10) {
+
             if (mx >= 0 && mx <= 13) {
                 return true;
             }
