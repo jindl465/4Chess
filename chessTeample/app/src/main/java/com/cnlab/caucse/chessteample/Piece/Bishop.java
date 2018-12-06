@@ -77,7 +77,7 @@ public class Bishop extends Piece {
             }
         }
 
-        for(int minus = 13; minus >= 1; minus--){ // 좌상향
+        for(int minus = 1; minus <=13; minus++){ // 좌상향
             pos[count].setX(this.position.getX()-minus);
             pos[count].setY(this.position.getY()-minus);
             if(pos[count].isValid()) {      //이동위치가 말판에 있ㄴ는가?
@@ -94,7 +94,7 @@ public class Bishop extends Piece {
             }
         }
 
-        for(int minus = 13; minus >= 1; minus--){ // 좌하향
+        for(int minus = 1; minus <= 13; minus++){ // 좌하향
             pos[count].setX(this.position.getX()-minus);
             pos[count].setY(this.position.getY()+minus);
             if(pos[count].isValid()) {      //이동위치가 말판에 있ㄴ는가?
