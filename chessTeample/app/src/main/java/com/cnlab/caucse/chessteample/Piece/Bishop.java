@@ -37,63 +37,72 @@ public class Bishop extends Piece {
     @Override
     public ArrayList<Position> getCanMoves(Tile[][] btnex) {
         ArrayList<Position> canmove = new ArrayList<Position>();
-        Position pos = this.position;
+        Position[] pos = new Position[26];
+        int count = 0;
 
 
         for(int plus = 1; plus <= 13; plus++){ //우상향
-            pos.setX(this.position.getX()+plus);
-            pos.setY(this.position.getY()-plus);
-            if(pos.isValid()) {      //이동위치가 말판에 있ㄴ는가?
-                if (btnex[pos.getX()][pos.getY()].getColor().equals("NONE")) { //빈칸인가?
-                    canmove.add(pos);
-                } else if (btnex[pos.getX()][pos.getY()].getColor().equals(this.color)) { // 앞에 같은색이 걸리니?
+            pos[count].setX(this.position.getX()+plus);
+            pos[count].setY(this.position.getY()-plus);
+            if(pos[count].isValid()) {      //이동위치가 말판에 있는가?
+                if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals("NONE")) { //빈칸인가?
+                    canmove.add(pos[count]);
+                    count++;
+                } else if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 앞에 같은색이 걸리니?
                     break;
-                } else if (!btnex[pos.getX()][pos.getY()].getColor().equals(this.color)) { // 다른색이니?
-                    canmove.add(pos);
+                } else if (!btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 다른색이니?
+                    canmove.add(pos[count]);
+                    count++;
                     break;
                 }
             }
         }
         for(int plus = 1; plus <= 13; plus++){ // 우하향
-            pos.setX(this.position.getX()+plus);
-            pos.setY(this.position.getY()+plus);
-            if(pos.isValid()) {      //이동위치가 말판에 있ㄴ는가?
-                if (btnex[pos.getX()][pos.getY()].getColor().equals("NONE")) { //빈칸인가?
-                    canmove.add(pos);
-                } else if (btnex[pos.getX()][pos.getY()].getColor().equals(this.color)) { // 앞에 같은색이 걸리니?
+            pos[count].setX(this.position.getX()+plus);
+            pos[count].setY(this.position.getY()+plus);
+            if(pos[count].isValid()) {      //이동위치가 말판에 있ㄴ는가?
+                if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals("NONE")) { //빈칸인가?
+                    canmove.add(pos[count]);
+                    count++;
+                } else if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 앞에 같은색이 걸리니?
                     break;
-                } else if (!btnex[pos.getX()][pos.getY()].getColor().equals(this.color)) { // 다른색이니?
-                    canmove.add(pos);
+                } else if (!btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 다른색이니?
+                    canmove.add(pos[count]);
+                    count++;
                     break;
                 }
             }
         }
 
         for(int minus = 13; minus >= 1; minus--){ // 좌상향
-            pos.setX(this.position.getX()-minus);
-            pos.setY(this.position.getY()-minus);
-            if(pos.isValid()) {      //이동위치가 말판에 있ㄴ는가?
-                if (btnex[pos.getX()][pos.getY()].getColor().equals("NONE")) { //빈칸인가?
-                    canmove.add(pos);
-                } else if (btnex[pos.getX()][pos.getY()].getColor().equals(this.color)) { // 앞에 같은색이 걸리니?
+            pos[count].setX(this.position.getX()-minus);
+            pos[count].setY(this.position.getY()-minus);
+            if(pos[count].isValid()) {      //이동위치가 말판에 있ㄴ는가?
+                if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals("NONE")) { //빈칸인가?
+                    canmove.add(pos[count]);
+                    count++;
+                } else if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 앞에 같은색이 걸리니?
                     break;
-                } else if (!btnex[pos.getX()][pos.getY()].getColor().equals(this.color)) { // 다른색이니?
-                    canmove.add(pos);
+                } else if (!btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 다른색이니?
+                    canmove.add(pos[count]);
+                    count++;
                     break;
                 }
             }
         }
 
         for(int minus = 13; minus >= 1; minus--){ // 좌하향
-            pos.setX(this.position.getX()-minus);
-            pos.setY(this.position.getY()+minus);
-            if(pos.isValid()) {      //이동위치가 말판에 있ㄴ는가?
-                if (btnex[pos.getX()][pos.getY()].getColor().equals("NONE")) { //빈칸인가?
-                    canmove.add(pos);
-                } else if (btnex[pos.getX()][pos.getY()].getColor().equals(this.color)) { // 앞에 같은색이 걸리니?
+            pos[count].setX(this.position.getX()-minus);
+            pos[count].setY(this.position.getY()+minus);
+            if(pos[count].isValid()) {      //이동위치가 말판에 있ㄴ는가?
+                if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals("NONE")) { //빈칸인가?
+                    canmove.add(pos[count]);
+                    count++;
+                } else if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 앞에 같은색이 걸리니?
                     break;
-                } else if (!btnex[pos.getX()][pos.getY()].getColor().equals(this.color)) { // 다른색이니?
-                    canmove.add(pos);
+                } else if (!btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 다른색이니?
+                    canmove.add(pos[count]);
+                    count++;
                     break;
                 }
             }
