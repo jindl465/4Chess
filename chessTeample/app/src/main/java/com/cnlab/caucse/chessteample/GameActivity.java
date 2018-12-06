@@ -75,11 +75,14 @@ public class GameActivity extends AppCompatActivity{
                             if(btnEx[finalI][finalJ].isOnPiece() == true){
                                 flag = true;
                                 btnEx[finalI][finalJ].setActive(true);
-                                Log.d("why1",Integer.toString(finalI));
-                                Log.d("why1",Integer.toString(finalJ));
+                              //  Log.d("why1",Integer.toString(finalI));
+                              //  Log.d("why1",Integer.toString(finalJ));
                                 cantouch = new ArrayList<Position>(btnEx[finalI][finalJ].getPiece().getCanMoves(btnEx));
-                                Log.d("why2",Integer.toString(btnEx[finalI][finalJ].getPiece().getPosition().getX()));
-                                Log.d("why2",Integer.toString(btnEx[finalI][finalJ].getPiece().getPosition().getY()));
+                              //  Log.d("why2",Integer.toString(btnEx[finalI][finalJ].getPiece().getPosition().getX()));
+                              //  Log.d("why2",Integer.toString(btnEx[finalI][finalJ].getPiece().getPosition().getY()));
+                                for(int q=0; q<cantouch.size(); q++){
+                                    btn[cantouch.get(q).getX()][cantouch.get(q).getY()].setBackgroundResource(R.drawable.buttonshapered);
+                                }
                             }
                         }
                         else if(flag == true){
@@ -211,6 +214,14 @@ public class GameActivity extends AppCompatActivity{
                                         btnEx[findx][findy].setActive(false);
                                         break;
                                     }
+                                }
+                            }
+                            for(int q=0; q<cantouch.size(); q++){
+                                if((cantouch.get(q).getX()+cantouch.get(q).getY())%2 == 1){
+                                    btn[cantouch.get(q).getX()][cantouch.get(q).getY()].setBackgroundResource(R.drawable.buttonshapegray);
+                                }
+                                else{
+                                    btn[cantouch.get(q).getX()][cantouch.get(q).getY()].setBackgroundResource(R.drawable.buttonshapewhite);
                                 }
                             }
                             flag = false;
