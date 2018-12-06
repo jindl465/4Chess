@@ -40,6 +40,10 @@ public class Rook extends Piece {
         Position[] pos = new Position[26];
         int count = 0;
 
+        for(int i=0;i<26;i++){
+            pos[i] = new Position(this.position.getX(), this.position.getY());
+        }
+
         pos[count].setY(this.position.getY());
         for(int x = this.position.getX()+1; x <= 13; x++){
             pos[count].setX(x);

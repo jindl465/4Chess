@@ -40,6 +40,9 @@ public class Bishop extends Piece {
         Position[] pos = new Position[26];
         int count = 0;
 
+        for(int i=0;i<26;i++){
+            pos[i] = new Position(this.position.getX(), this.position.getY());
+        }
 
         for(int plus = 1; plus <= 13; plus++){ //우상향
             pos[count].setX(this.position.getX()+plus);
