@@ -21,7 +21,7 @@ public class Tile {
     public Tile(){
         this.active = false;
         this.onPiece = false;
-        this.PieceType = null;
+        this.PieceType = "NONE";
         this.color = "NONE";
     }
     public Tile(String PieceType, String color, Position pos){

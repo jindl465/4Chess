@@ -72,33 +72,50 @@ public class GameActivity extends AppCompatActivity{
                     @Override
                     public void onClick(View v) {
                         if(flag == false){
-                            if(btnEx[finalI][finalJ].isOnPiece() ==true){
+                            if(btnEx[finalI][finalJ].isOnPiece() == true){
                                 flag = true;
                                 btnEx[finalI][finalJ].setActive(true);
+                                Log.d("why1",Integer.toString(finalI));
+                                Log.d("why1",Integer.toString(finalJ));
                                 cantouch = new ArrayList<Position>(btnEx[finalI][finalJ].getPiece().getCanMoves(btnEx));
+                                Log.d("why2",Integer.toString(btnEx[finalI][finalJ].getPiece().getPosition().getX()));
+                                Log.d("why2",Integer.toString(btnEx[finalI][finalJ].getPiece().getPosition().getY()));
                             }
                         }
                         else if(flag == true){
-                            Log.d("why@@", Integer.toString(cantouch.size()));
+                            Log.d("why", Integer.toString(finalI));
+                            Log.d("why", Integer.toString(finalJ));
                             int findx = 0, findy = 0;
+                            int mflag = 0;
                             for(int k = 0 ; k < cantouch.size(); k++) {
                                 Log.d("why@@", Integer.toString(cantouch.get(k).getX()));
                                 Log.d("why@@",Integer.toString(cantouch.get(k).getY()));
                                 if (cantouch.get(k).getX() == finalI && cantouch.get(k).getY() == finalJ){
-
+                                    Log.d("why", "ok");
                                     for(findx = 0 ; findx<=13; findx++){
                                         for(findy = 0; findy <=13; findy++){
                                             if(btnEx[findx][findy].getActive() ==true){
                                                 btnEx[findx][findy].setActive(false);
+                                                if(btnEx[findx][findy].getPiecetype()=="PAWN"){
+                                                    if((findy-finalJ)==2){
+                                                        Log.d("whyeee","ok");
+                                                        btnEx[findx][findy].getPiece().setFirstmove(false);
+                                                    }
+                                                }
+                                                mflag = 1;
                                                 break;
                                             }
                                         }
+                                        if(mflag==1) break;
                                     }
                                     btnEx[finalI][finalJ].setColor(btnEx[findx][findy].getColor());
                                     btnEx[finalI][finalJ].setOnPiece(true);
-                                    btnEx[findx][findy].getPiece().setPosition(new Position(findx,findy));
+                                    Log.d("why1",btnEx[finalI][finalJ].getColor());
+
+                                    btnEx[findx][findy].getPiece().setPosition(new Position(finalI,finalJ));
 
                                     btnEx[finalI][finalJ].setPiecetype(btnEx[findx][findy].getPiecetype());
+                                    Log.d("why1",btnEx[finalI][finalJ].getPiecetype());
                                     btnEx[finalI][finalJ].setPiece(btnEx[findx][findy].getPiece());
                                     btnEx[findx][findy].setPiece(null);
                                     btnEx[findx][findy].setPiecetype("NONE");
@@ -187,6 +204,14 @@ public class GameActivity extends AppCompatActivity{
                                     }
                                 }
 
+                            }
+                            for(findx = 0 ; findx<=13; findx++){
+                                for(findy = 0; findy <=13; findy++){
+                                    if(btnEx[findx][findy].getActive() ==true){
+                                        btnEx[findx][findy].setActive(false);
+                                        break;
+                                    }
+                                }
                             }
                             flag = false;
                         }

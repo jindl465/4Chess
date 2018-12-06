@@ -28,4 +28,5 @@ public class Piece {
         return null;
     }
     //public abstract Position[] getCanMovesForKing();
+    public void setFirstmove(boolean use){}
 }
