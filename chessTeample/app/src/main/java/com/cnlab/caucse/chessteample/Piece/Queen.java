@@ -52,10 +52,12 @@ public class Queen extends Piece {
             if(pos[count].isValid()) {      //이동위치가 말판에 있ㄴ는가?
                 if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals("NONE")) { //빈칸인가?
                     canmove.add(pos[count]);
+                    count++;
                 } else if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 앞에 같은색이 걸리니?
                     break;
                 } else if (!btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 다른색이니?
                     canmove.add(pos[count]);
+                    count++;
                     break;
                 }
             }
@@ -66,10 +68,12 @@ public class Queen extends Piece {
             if(pos[count].isValid()) {      //이동위치가 말판에 있ㄴ는가?
                 if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals("NONE")) { //빈칸인가?
                     canmove.add(pos[count]);
+                    count++;
                 } else if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 앞에 같은색이 걸리니?
                     break;
                 } else if (!btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 다른색이니?
                     canmove.add(pos[count]);
+                    count++;
                     break;
                 }
             }
@@ -115,10 +119,12 @@ public class Queen extends Piece {
             if(pos[count].isValid()) {      //이동위치가 말판에 있ㄴ는가?
                 if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals("NONE")) { //빈칸인가?
                     canmove.add(pos[count]);
+                    count++;
                 } else if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 앞에 같은색이 걸리니?
                     break;
                 } else if (!btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 다른색이니?
                     canmove.add(pos[count]);
+                    count++;
                     break;
                 }
             }
@@ -129,11 +135,13 @@ public class Queen extends Piece {
             if(pos[count].isValid()){      //이동위치가 말판에 있ㄴ는가?
                 if(btnex[pos[count].getX()][pos[count].getY()].getColor().equals("NONE")){ //빈칸인가?
                     canmove.add(pos[count]);
+                    count++;
                 }else if(btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)){ // 앞에 같은색이 걸리니?
                     break;
                 }
                 else if(!btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)){ // 다른색이니?
                     canmove.add(pos[count]);
+                    count++;
                     break;
                 }
             }
@@ -145,11 +153,13 @@ public class Queen extends Piece {
             if(pos[count].isValid()){      //이동위치가 말판에 있ㄴ는가?
                 if(btnex[pos[count].getX()][pos[count].getY()].getColor().equals("NONE")){ //빈칸인가?
                     canmove.add(pos[count]);
+                    count++;
                 }else if(btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)){ // 앞에 같은색이 걸리니?
                     break;
                 }
                 else if(!btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)){ // 다른색이니?
                     canmove.add(pos[count]);
+                    count++;
                     break;
                 }
             }
@@ -160,11 +170,13 @@ public class Queen extends Piece {
             if(pos[count].isValid()){      //이동위치가 말판에 있ㄴ는가?
                 if(btnex[pos[count].getX()][pos[count].getY()].getColor().equals("NONE")){ //빈칸인가?
                     canmove.add(pos[count]);
+                    count++;
                 }else if(btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)){ // 앞에 같은색이 걸리니?
                     break;
                 }
                 else if(!btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)){ // 다른색이니?
                     canmove.add(pos[count]);
+                    count++;
                     break;
                 }
             }

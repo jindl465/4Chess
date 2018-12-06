@@ -29,6 +29,7 @@ public class GameActivity extends AppCompatActivity{
     private String p2_color;
     private String p3_color;
     private String p4_color;
+    private TextView checkid;
     private boolean flag;
     private ArrayList<Position> cantouch;
 
@@ -60,6 +61,45 @@ public class GameActivity extends AppCompatActivity{
 
     public Tile[][] getBtnEx() {
         return btnEx;
+    }
+
+    public boolean checkcheck(){
+        for(int i = 0; i <=13; i ++){
+            for(int j = 0; j <=13; j++){
+                if(btnEx[i][j].isOnPiece()==true){
+                    for(int z = 0; z<btnEx[i][j].getPiece().getCanMoves(btnEx).size(); z++){
+                        if(btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].getPiecetype().equals("KING")){
+                            String color = btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].getColor();
+                            color = color + " Check";
+                            checkid.setText(color);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public boolean checkcheckmate(){
+      /*  for(int i = 0; i <=13; i ++){
+            for(int j = 0; j <=13; j++){
+                if(btnEx[i][j].isOnPiece()==true){
+                    for(int z = 0; z<btnEx[i][j].getPiece().getCanMoves(btnEx).size(); z++){
+                        if(btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].getPiecetype().equals("KING")){
+                            if(btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].getPiece().getCanMoves(btnEx).size()==0){
+
+                            }
+                            //String color = btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].getColor();
+                            //color = color + " Check";
+                            //checkid.setText(color);
+                            return true;
+                        }
+                    }
+                }
+            }
+        }*/
+        return false;
     }
 
     public void setbcl(){
@@ -204,7 +244,9 @@ public class GameActivity extends AppCompatActivity{
 
                                         if(btnEx[finalI][finalJ].getPiecetype()=="PAWN")
                                             btn[finalI][finalJ].setImageResource(R.mipmap.pawn_green);
+
                                     }
+                                    checkcheck();
                                 }
 
                             }
@@ -235,6 +277,8 @@ public class GameActivity extends AppCompatActivity{
     }
 
     public void setButtonID(){
+        checkid = (TextView)findViewById(R.id.checkId);
+
         btn[0][0] = (ImageButton)findViewById(R.id.board00);
         btn[1][0] = (ImageButton)findViewById(R.id.board01);
         btn[2][0] = (ImageButton)findViewById(R.id.board02);
