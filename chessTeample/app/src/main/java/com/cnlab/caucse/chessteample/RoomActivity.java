@@ -34,5 +34,15 @@ public class RoomActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+        makeRoom.setOnClickListener(new View.OnClickListener() {   // 각각의 버튼이 눌리면 하나의 버튼은 없어지게 만들기!
+            @Override
+            public void onClick(View v) {
+                makeRoom.setTextColor(Color.YELLOW);
+                Intent intent = new Intent(RoomActivity.this, ServerActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 }
