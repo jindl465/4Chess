@@ -19,7 +19,8 @@
         <activity android:name=".GameActivity" />
         <activity android:name=".HelpActivity" />
         <activity android:name=".RoomActivity" />
-        <activity android:name=".ServerActivity"></activity>
+        <activity android:name=".ServerActivity" />
+        <activity android:name=".ClientActivity"></activity>
     </application>
 
 </manifest>

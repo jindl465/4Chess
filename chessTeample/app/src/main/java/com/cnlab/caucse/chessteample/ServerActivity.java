@@ -39,6 +39,17 @@ public class ServerActivity extends AppCompatActivity {
             }
         }, new IntentFilter("GroupMembersChanged"));
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                TextView clientMessageView = (TextView) findViewById(R.id.clientMessageView);
+                clientMessageView.append(System.lineSeparator());
+                clientMessageView.append(intent.getStringExtra("from"));
+                clientMessageView.append(" > ");
+                clientMessageView.append(intent.getStringExtra("message"));
+            }
+        }, new IntentFilter("GroupMessageReceived"));
+
         groupManager.joinGroup(new GroupUser());
 
         groupManager.startGroupTCPServer();
@@ -53,6 +64,15 @@ public class ServerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 EditText editText = (EditText) findViewById(R.id.editText);
                 groupManager.broadcastToGroup(editText.getText().toString());
+            }
+        });
+
+        Button playButton = (Button) findViewById(R.id.playButton);
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ServerActivity.this, GameActivity.class);
+                startActivity(intent);
             }
         });
     }

@@ -62,6 +62,10 @@ public class GroupManagerServer implements GroupManager{
         user.startReceive(new GroupUser.receiverTask() {
             @Override
             public void process(String message) {
+                Intent intent = new Intent("GroupMessageReceived");
+                intent.putExtra("from", user.getIPAddress());
+                intent.putExtra("message", message);
+                LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
                 if (message.startsWith("GROUP BROADCAST: ")) {
                     broadcastToGroup(message.substring("GROUP BROADCAST: ".length()), user);
                 }

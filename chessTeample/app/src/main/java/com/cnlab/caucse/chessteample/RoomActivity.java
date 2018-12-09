@@ -29,7 +29,7 @@ public class RoomActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 enterRoom.setTextColor(Color.YELLOW);
-                Intent intent = new Intent(RoomActivity.this, GameActivity.class);
+                Intent intent = new Intent(RoomActivity.this, ClientActivity.class);
                 startActivity(intent);
                 finish();
             }
