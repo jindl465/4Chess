@@ -63,6 +63,9 @@ public class GameActivity extends AppCompatActivity{
         return btnEx;
     }
 
+
+
+
     public boolean checkcheck(){
         for(int i = 0; i <=13; i ++){
             for(int j = 0; j <=13; j++){
@@ -81,15 +84,33 @@ public class GameActivity extends AppCompatActivity{
         return false;
     }
 
-    public boolean checkcheckmate(){
-      /*  for(int i = 0; i <=13; i ++){
+    public boolean checkcheckmate(String mycolor){
+        for(int i = 0; i <=13; i ++){
             for(int j = 0; j <=13; j++){
                 if(btnEx[i][j].isOnPiece()==true){
                     for(int z = 0; z<btnEx[i][j].getPiece().getCanMoves(btnEx).size(); z++){
                         if(btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].getPiecetype().equals("KING")){
-                            if(btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].getPiece().getCanMoves(btnEx).size()==0){
-
-                            }
+                          //  if(btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].getPiece().getCanMoves(btnEx).size()==0){
+                                for(int a = 0 ; a < 14; a++) {
+                                    for (int b = 0; b < 14; b++) {
+                                        if(btnEx[a][b].getColor().equals(mycolor)){
+                                            for(int c =0 ; c<btnEx[a][b].getPiece().getCanMoves(btnEx).size();c++){
+                                                String temp = btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].getColor();
+                                                btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(mycolor);
+                                                if(btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].getPiecetype().equals("KING")){
+                                                    btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
+                                                    return true;
+                                                }
+                                                else if(checkcheck() ==false){
+                                                    btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
+                                                    return false;
+                                                }
+                                                btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
+                                            }
+                                        }
+                                    }
+                                }
+                         //   }
                             //String color = btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].getColor();
                             //color = color + " Check";
                             //checkid.setText(color);
@@ -98,7 +119,30 @@ public class GameActivity extends AppCompatActivity{
                     }
                 }
             }
-        }*/
+        }
+        return false;
+    }
+
+    public boolean checkstalemate(String mycolor){
+        if(checkcheck()!=true){
+            for(int a = 0 ; a < 14; a++) {
+                for (int b = 0; b < 14; b++) {
+                    if(btnEx[a][b].getColor().equals(mycolor)){
+                        for(int c =0 ; c<btnEx[a][b].getPiece().getCanMoves(btnEx).size();c++){
+                            String temp = btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].getColor();
+                            btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(mycolor);
+                            if(checkcheck() ==false){
+                                btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
+                                return false;
+                            }
+                            btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
         return false;
     }
 
