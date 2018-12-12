@@ -81,7 +81,9 @@ public class GroupManagerServer implements GroupManager{
         }, new Runnable() {
             @Override
             public void run() {
-                leaveGroup(user);
+                if (!user.getIPAddress().equals(mLocalAddress)) {
+                    leaveGroup(user);
+                }
             }
         });
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent("GroupMembersChanged"));
