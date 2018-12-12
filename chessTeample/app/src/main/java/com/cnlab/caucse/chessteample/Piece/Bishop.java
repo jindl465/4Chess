@@ -9,11 +9,24 @@ public class Bishop extends Piece {
     private String color;
     private boolean alive;
     private Position position;
+    private String teamcolor;
 
     public Bishop(String color, Position position){
         this.color = color;
         this.alive = true;
         this.position = position;
+        if(color.equals("WHITE")){
+            teamcolor = "BLACK";
+        }
+        if(color.equals("BLACK")){
+            teamcolor = "WHITE";
+        }
+        if(color.equals("RED")){
+            teamcolor = "GREEN";
+        }
+        if(color.equals("GREEN")){
+            teamcolor = "RED";
+        }
     }
     @Override
     public void setPosition(Position pos) {
@@ -51,7 +64,7 @@ public class Bishop extends Piece {
                 if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals("NONE")) { //빈칸인가?
                     canmove.add(pos[count]);
                     count++;
-                } else if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 앞에 같은색이 걸리니?
+                } else if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color) || btnex[pos[count].getX()][pos[count].getY()].getColor().equals(teamcolor)) { // 앞에 같은색이 걸리니?
                     break;
                 } else if (!btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 다른색이니?
                     canmove.add(pos[count]);
@@ -67,7 +80,7 @@ public class Bishop extends Piece {
                 if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals("NONE")) { //빈칸인가?
                     canmove.add(pos[count]);
                     count++;
-                } else if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 앞에 같은색이 걸리니?
+                } else if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color) || btnex[pos[count].getX()][pos[count].getY()].getColor().equals(teamcolor)) { // 앞에 같은색이 걸리니?
                     break;
                 } else if (!btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 다른색이니?
                     canmove.add(pos[count]);
@@ -84,7 +97,7 @@ public class Bishop extends Piece {
                 if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals("NONE")) { //빈칸인가?
                     canmove.add(pos[count]);
                     count++;
-                } else if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 앞에 같은색이 걸리니?
+                } else if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color) || btnex[pos[count].getX()][pos[count].getY()].getColor().equals(teamcolor)) { // 앞에 같은색이 걸리니?
                     break;
                 } else if (!btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 다른색이니?
                     canmove.add(pos[count]);
@@ -101,7 +114,7 @@ public class Bishop extends Piece {
                 if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals("NONE")) { //빈칸인가?
                     canmove.add(pos[count]);
                     count++;
-                } else if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 앞에 같은색이 걸리니?
+                } else if (btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color) || btnex[pos[count].getX()][pos[count].getY()].getColor().equals(teamcolor)) { // 앞에 같은색이 걸리니?
                     break;
                 } else if (!btnex[pos[count].getX()][pos[count].getY()].getColor().equals(this.color)) { // 다른색이니?
                     canmove.add(pos[count]);
