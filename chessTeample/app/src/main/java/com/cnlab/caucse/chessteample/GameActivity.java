@@ -67,7 +67,7 @@ public class GameActivity extends AppCompatActivity{
 //        tv.setText(stringFromJNI());
 
         setButtonID();
-        setStartTile(p1_color);
+        setStartTile();
         setbcl();
 
 
@@ -449,6 +449,89 @@ public class GameActivity extends AppCompatActivity{
         btnEx[onex][oney].setOnPiece(false);
         btnEx[onex][oney].setPiece(null);
         btnEx[onex][oney].setColor("NONE");
+
+        btn[onex][oney].setImageResource(0);
+
+        if(btnEx[twox][twoy].getColor().equals("BLACK")) {
+            if(btnEx[twox][twoy].getPiecetype()=="ROOK")
+                btn[twox][twoy].setImageResource(R.mipmap.rook_black);
+
+            if(btnEx[twox][twoy].getPiecetype()=="KNIGHT")
+                btn[twox][twoy].setImageResource(R.mipmap.knight_black);
+
+            if(btnEx[twox][twoy].getPiecetype()=="BISHOP")
+                btn[twox][twoy].setImageResource(R.mipmap.bishop_black);
+
+            if(btnEx[twox][twoy].getPiecetype()=="KING")
+                btn[twox][twoy].setImageResource(R.mipmap.king_black);
+
+            if(btnEx[twox][twoy].getPiecetype()=="QUEEN")
+                btn[twox][twoy].setImageResource(R.mipmap.queen_black);
+
+            if(btnEx[twox][twoy].getPiecetype()=="PAWN")
+                btn[twox][twoy].setImageResource(R.mipmap.pawn_black);
+        }
+
+        if(btnEx[twox][twoy].getColor().equals("WHITE")) {
+            if(btnEx[twox][twoy].getPiecetype()=="ROOK")
+                btn[twox][twoy].setImageResource(R.mipmap.rook_white);
+
+            if(btnEx[twox][twoy].getPiecetype()=="KNIGHT")
+                btn[twox][twoy].setImageResource(R.mipmap.knight_white);
+
+            if(btnEx[twox][twoy].getPiecetype()=="BISHOP")
+                btn[twox][twoy].setImageResource(R.mipmap.bishop_white);
+
+            if(btnEx[twox][twoy].getPiecetype()=="KING")
+                btn[twox][twoy].setImageResource(R.mipmap.king_white);
+
+            if(btnEx[twox][twoy].getPiecetype()=="QUEEN")
+                btn[twox][twoy].setImageResource(R.mipmap.queen_white);
+
+            if(btnEx[twox][twoy].getPiecetype()=="PAWN")
+                btn[twox][twoy].setImageResource(R.mipmap.pawn_white);
+        }
+
+        if(btnEx[twox][twoy].getColor().equals("RED")) {
+            if(btnEx[twox][twoy].getPiecetype()=="ROOK")
+                btn[twox][twoy].setImageResource(R.mipmap.rook_red);
+
+            if(btnEx[twox][twoy].getPiecetype()=="KNIGHT")
+                btn[twox][twoy].setImageResource(R.mipmap.knight_red);
+
+            if(btnEx[twox][twoy].getPiecetype()=="BISHOP")
+                btn[twox][twoy].setImageResource(R.mipmap.bishop_red);
+
+            if(btnEx[twox][twoy].getPiecetype()=="KING")
+                btn[twox][twoy].setImageResource(R.mipmap.king_red);
+
+            if(btnEx[twox][twoy].getPiecetype()=="QUEEN")
+                btn[twox][twoy].setImageResource(R.mipmap.queen_red);
+
+            if(btnEx[twox][twoy].getPiecetype()=="PAWN")
+                btn[twox][twoy].setImageResource(R.mipmap.pawn_red);
+        }
+
+        if(btnEx[twox][twoy].getColor().equals("GREEN")) {
+            if(btnEx[twox][twoy].getPiecetype()=="ROOK")
+                btn[twox][twoy].setImageResource(R.mipmap.rook_green);
+
+            if(btnEx[twox][twoy].getPiecetype()=="KNIGHT")
+                btn[twox][twoy].setImageResource(R.mipmap.knight_green);
+
+            if(btnEx[twox][twoy].getPiecetype()=="BISHOP")
+                btn[twox][twoy].setImageResource(R.mipmap.bishop_green);
+
+            if(btnEx[twox][twoy].getPiecetype()=="KING")
+                btn[twox][twoy].setImageResource(R.mipmap.king_green);
+
+            if(btnEx[twox][twoy].getPiecetype()=="QUEEN")
+                btn[twox][twoy].setImageResource(R.mipmap.queen_green);
+
+            if(btnEx[twox][twoy].getPiecetype()=="PAWN")
+                btn[twox][twoy].setImageResource(R.mipmap.pawn_green);
+
+        }
     }
 
 
@@ -666,7 +749,7 @@ public class GameActivity extends AppCompatActivity{
         btn[13][13] = (ImageButton)findViewById(R.id.board1313);
     }
 
-    public void setStartTile(String Player){
+    public void setStartTile(){
         for(int i = 0; i <=13; i++) {
             for(int j = 0 ; j <= 13; j++){
                 btnEx[i][j] = new Tile();
