@@ -44,7 +44,7 @@ public class GameActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.board);
-        mycolor = getIntent().getStringExtra("playerCOLOR");
+        mycolor = getIntent().getStringExtra("playerColor");
         if(mycolor.equals("BLACK")){
             teamcolor = "WHITE";
         }
