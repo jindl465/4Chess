@@ -335,6 +335,123 @@ public class GameActivity extends AppCompatActivity{
 
     }
 
+    public void Movelistener(){
+        String listencolor = "NONE";
+        int onex= 9;
+        int oney = 9;
+        int twox=9;
+        int twoy=9;
+
+        if(mycolor.equals("WHITE")){
+            if(listencolor.equals("GREEN")){
+                int temp = onex;
+                onex = oney;
+                oney = 13-temp;
+                int temp2 = twox;
+                twox = twoy;
+                twoy = 13-temp;
+            }
+            if(listencolor.equals("RED")){
+                int temp = onex;
+                onex = 13- oney;
+                oney = temp;
+                int temp2 = twox;
+                twox = 13 - twoy;
+                twoy = temp;
+            }
+            if(listencolor.equals("BLACK")){
+                onex= 13-onex;
+                oney= 13-oney;
+                twox=13-twox;
+                twoy=13-twoy;
+            }
+        }
+        if(mycolor.equals("BLACK")){
+            if(listencolor.equals("RED")){
+                int temp = onex;
+                onex = oney;
+                oney = 13-temp;
+                int temp2 = twox;
+                twox = twoy;
+                twoy = 13-temp;
+            }
+            if(listencolor.equals("GREEN")){
+                int temp = onex;
+                onex = 13- oney;
+                oney = temp;
+                int temp2 = twox;
+                twox = 13 - twoy;
+                twoy = temp;
+            }
+            if(listencolor.equals("WHITE")){
+                onex= 13-onex;
+                oney= 13-oney;
+                twox=13-twox;
+                twoy=13-twoy;
+            }
+        }
+        if(mycolor.equals("RED")){
+            if(listencolor.equals("WHITE")){
+                int temp = onex;
+                onex = oney;
+                oney = 13-temp;
+                int temp2 = twox;
+                twox = twoy;
+                twoy = 13-temp;
+            }
+            if(listencolor.equals("BLACK")){
+                int temp = onex;
+                onex = 13- oney;
+                oney = temp;
+                int temp2 = twox;
+                twox = 13 - twoy;
+                twoy = temp;
+            }
+            if(listencolor.equals("GREEN")){
+                onex= 13-onex;
+                oney= 13-oney;
+                twox=13-twox;
+                twoy=13-twoy;
+            }
+        }
+        if(mycolor.equals("GREEN")){
+            if(listencolor.equals("BLACK")){
+                int temp = onex;
+                onex = oney;
+                oney = 13-temp;
+                int temp2 = twox;
+                twox = twoy;
+                twoy = 13-temp;
+            }
+            if(listencolor.equals("WHITE")){
+                int temp = onex;
+                onex = 13- oney;
+                oney = temp;
+                int temp2 = twox;
+                twox = 13 - twoy;
+                twoy = temp;
+            }
+            if(listencolor.equals("RED")){
+                onex= 13-onex;
+                oney= 13-oney;
+                twox=13-twox;
+                twoy=13-twoy;
+            }
+        }
+
+        btnEx[twox][twoy].setColor(btnEx[onex][oney].getColor());
+        btnEx[twox][twoy].setOnPiece(true);
+        btnEx[twox][twoy].setPiecetype(btnEx[onex][oney].getPiecetype());
+        Position pos = new Position(twox,twoy);
+        btnEx[onex][oney].getPiece().setPosition(pos);
+        btnEx[twox][twoy].setPiece(btnEx[onex][oney].getPiece());
+        btnEx[onex][oney].setPiecetype("NONE");
+        btnEx[onex][oney].setOnPiece(false);
+        btnEx[onex][oney].setPiece(null);
+        btnEx[onex][oney].setColor("NONE");
+    }
+
+
     public void setButtonID(){
         checkid = (TextView)findViewById(R.id.checkId);
 
