@@ -19,6 +19,8 @@ import com.cnlab.caucse.chessteample.Network.GroupUser;
 public class ClientActivity extends AppCompatActivity {
 
     GroupManagerClient groupManagerClient = null;
+    BroadcastReceiver GroupMembersChanged = null;
+    BroadcastReceiver GroupMessageReceived = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +29,7 @@ public class ClientActivity extends AppCompatActivity {
 
         groupManagerClient = new GroupManagerClient(this);
 
-        LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
+        GroupMembersChanged = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 TextView groupStatus = (TextView) findViewById(R.id.groupStatus);
@@ -42,9 +44,8 @@ public class ClientActivity extends AppCompatActivity {
                 groupStatus.setText(innerText.toString());
                 ((TextView) findViewById(R.id.serverMessageView)).setText("Messages from Server");
             }
-        }, new IntentFilter("GroupMembersChanged"));
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
+        };
+        GroupMessageReceived = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 TextView serverMessageView = (TextView) findViewById(R.id.serverMessageView);
@@ -52,7 +53,9 @@ public class ClientActivity extends AppCompatActivity {
                 serverMessageView.append(System.lineSeparator());
                 serverMessageView.append(message);
             }
-        }, new IntentFilter("GroupMessageReceived"));
+        };
+        LocalBroadcastManager.getInstance(this).registerReceiver(GroupMembersChanged, new IntentFilter("GroupMembersChanged"));
+        LocalBroadcastManager.getInstance(this).registerReceiver(GroupMessageReceived, new IntentFilter("GroupMessageReceived"));
 
         groupManagerClient.startReceivingGroupInvitation();
 
@@ -82,6 +85,8 @@ public class ClientActivity extends AppCompatActivity {
         super.onResume();
         if (groupManagerClient != null) {
             groupManagerClient.startReceivingGroupInvitation();
+            LocalBroadcastManager.getInstance(this).registerReceiver(GroupMembersChanged, new IntentFilter("GroupMembersChanged"));
+            LocalBroadcastManager.getInstance(this).registerReceiver(GroupMessageReceived, new IntentFilter("GroupMessageReceived"));
         }
     }
 
@@ -90,6 +95,8 @@ public class ClientActivity extends AppCompatActivity {
         super.onPause();
         if (groupManagerClient != null) {
             groupManagerClient.stopReceivingGroupInvitation();
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(GroupMembersChanged);
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(GroupMessageReceived);
         }
     }
 
@@ -98,6 +105,8 @@ public class ClientActivity extends AppCompatActivity {
         super.onDestroy();
         if (groupManagerClient != null) {
             groupManagerClient.stopReceivingGroupInvitation();
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(GroupMembersChanged);
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(GroupMessageReceived);
             groupManagerClient = null;
         }
     }
@@ -105,6 +114,8 @@ public class ClientActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(GroupMembersChanged);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(GroupMessageReceived);
         finish();
     }
 }
