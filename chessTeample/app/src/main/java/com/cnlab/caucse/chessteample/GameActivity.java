@@ -12,6 +12,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.cnlab.caucse.chessteample.Network.GroupManager;
+import com.cnlab.caucse.chessteample.Network.GroupManagerClient;
 import com.cnlab.caucse.chessteample.Piece.Bishop;
 import com.cnlab.caucse.chessteample.Piece.King;
 import com.cnlab.caucse.chessteample.Piece.Knight;
@@ -20,6 +22,7 @@ import com.cnlab.caucse.chessteample.Piece.Queen;
 import com.cnlab.caucse.chessteample.Piece.Rook;
 
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 public class GameActivity extends AppCompatActivity{
     private ImageButton btn[][] = new ImageButton[14][14];
@@ -305,6 +308,8 @@ public class GameActivity extends AppCompatActivity{
                                             btn[finalI][finalJ].setImageResource(R.mipmap.pawn_green);
 
                                     }
+                                    String msg = "";
+                                    msg = msg + mycolor + ":" + Integer.toString(findx)+":" + Integer.toString(findy)+":" + Integer.toString(finalI)+":" + Integer.toString(finalJ);
                                     checkcheck();
                                 }
 
@@ -335,12 +340,28 @@ public class GameActivity extends AppCompatActivity{
 
     }
 
-    public void Movelistener(){
+    public void Movelistener(String msg){
+        StringTokenizer token = new StringTokenizer(msg, ":");
         String listencolor = "NONE";
-        int onex= 9;
-        int oney = 9;
-        int twox=9;
-        int twoy=9;
+        String ox;
+        String oy;
+        String tx;
+        String ty;
+        int onex;
+        int oney;
+        int twox;
+        int twoy;
+
+        listencolor = token.nextToken();
+        ox = token.nextToken();
+        oy = token.nextToken();
+        tx = token.nextToken();
+        ty = token.nextToken();
+        onex = Integer.parseInt(ox);
+        oney = Integer.parseInt(oy);
+        twox = Integer.parseInt(tx);
+        twoy = Integer.parseInt(ty);
+
 
         if(mycolor.equals("WHITE")){
             if(listencolor.equals("GREEN")){
