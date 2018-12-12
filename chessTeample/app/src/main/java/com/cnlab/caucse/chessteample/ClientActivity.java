@@ -80,18 +80,31 @@ public class ClientActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        groupManagerClient.startReceivingGroupInvitation();
+        if (groupManagerClient != null) {
+            groupManagerClient.startReceivingGroupInvitation();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        groupManagerClient.stopReceivingGroupInvitation();
+        if (groupManagerClient != null) {
+            groupManagerClient.stopReceivingGroupInvitation();
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        groupManagerClient.stopReceivingGroupInvitation();
+        if (groupManagerClient != null) {
+            groupManagerClient.stopReceivingGroupInvitation();
+            groupManagerClient = null;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

@@ -82,19 +82,32 @@ public class ServerActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        groupManager.startBroadcastingGroupInvitation();
+        if (groupManager != null) {
+            groupManager.startBroadcastingGroupInvitation();
+        }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        groupManager.stopBroadcastingGroupInvitation();
+        if (groupManager != null) {
+            groupManager.stopBroadcastingGroupInvitation();
+        }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        groupManager.stopBroadcastingGroupInvitation();
-        groupManager.stopGroupTCPServer();
+        if (groupManager != null) {
+            groupManager.stopBroadcastingGroupInvitation();
+            groupManager.stopGroupTCPServer();
+            groupManager = null;
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
     }
 }

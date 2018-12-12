@@ -60,6 +60,12 @@ public class GroupManagerServer implements GroupManager{
     }
 
     public synchronized void joinGroup(final GroupUser user) {
+        for(GroupUser groupUser : mUserList) {
+            if (groupUser.getIPAddress().equals(user.getIPAddress())) {
+                leaveGroup(groupUser);
+                break;
+            }
+        }
         mUserList.add(user);
         user.startReceive(new GroupUser.receiverTask() {
             @Override
@@ -85,6 +91,7 @@ public class GroupManagerServer implements GroupManager{
 
     public synchronized void leaveGroup(GroupUser user) {
         mUserList.remove(user);
+        user.stopReceive();
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent("GroupMembersChanged"));
         Log.d("Group Manager", "LEAVE USER: " + user.getUserName());
         broadcastToGroup("GROUP " + this.getGroupName() + " MEMBERS:" + Arrays.toString(this.getUserList()));
