@@ -7,6 +7,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -33,15 +34,18 @@ public class ClientActivity extends AppCompatActivity {
             @Override
             public void onReceive(Context context, Intent intent) {
                 TextView groupStatus = (TextView) findViewById(R.id.groupStatus);
-                StringBuffer innerText = new StringBuffer("Group Name: ");
-                innerText.append(groupManagerClient.getGroupName());
-                innerText.append(System.lineSeparator());
-                innerText.append("List of Group Members");
-                for(GroupUser user : groupManagerClient.getUserList()) {
+                synchronized (groupStatus) {
+                    StringBuffer innerText = new StringBuffer("Group Name: ");
+                    innerText.append(groupManagerClient.getGroupName());
                     innerText.append(System.lineSeparator());
-                    innerText.append(user.getIPAddress());
+                    innerText.append("List of Group Members");
+                    for(GroupUser user : groupManagerClient.getUserList()) {
+                        innerText.append(System.lineSeparator());
+                        innerText.append(user.getIPAddress());
+                    }
+                    groupStatus.setText(innerText.toString());
+                    Log.d("ClientActivity", innerText.toString());
                 }
-                groupStatus.setText(innerText.toString());
                 ((TextView) findViewById(R.id.serverMessageView)).setText("Messages from Server");
             }
         };

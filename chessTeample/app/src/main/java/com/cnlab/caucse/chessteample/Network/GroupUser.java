@@ -102,9 +102,11 @@ public class GroupUser {
                     }
                     else {
                         Log.d("GroupUser", getUserName() + "Error : Input stream not available");
+                        leaveTask.run();
                     }
                 } catch (IOException e) {
                     Log.d("GroupUser", getUserName() + "Error : Input stream throws exception");
+                    leaveTask.run();
                     e.printStackTrace();
                 }
             }

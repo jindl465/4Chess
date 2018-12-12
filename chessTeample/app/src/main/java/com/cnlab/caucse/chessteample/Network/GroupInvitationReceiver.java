@@ -42,15 +42,17 @@ public class GroupInvitationReceiver {
                                 public void process(String message) {
                                     if (message.startsWith("GROUP ") && message.startsWith(" MEMBERS:", 11)) {
                                         String[] membersIP = message.substring(21, message.length() - 1).split(", ");
-                                        for (int i = 1; i < groupManagerClient.getUserList().size(); i++) {
-                                            groupManagerClient.getUserList().remove(i);
-                                        }
-                                        try {
-                                            for (int i = 1; i < membersIP.length; i++) {
-                                                groupManagerClient.getUserList().add(new GroupUser(InetAddress.getByName(membersIP[i])));
+                                        synchronized (groupManagerClient) {
+                                            for (int i = 1; i < groupManagerClient.getUserList().size(); i++) {
+                                                groupManagerClient.getUserList().remove(i);
                                             }
-                                        } catch (UnknownHostException e) {
-                                            e.printStackTrace();
+                                            try {
+                                                for (int i = 1; i < membersIP.length; i++) {
+                                                    groupManagerClient.getUserList().add(new GroupUser(InetAddress.getByName(membersIP[i])));
+                                                }
+                                            } catch (UnknownHostException e) {
+                                                e.printStackTrace();
+                                            }
                                         }
                                         LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("GroupMembersChanged"));
                                     } else {
