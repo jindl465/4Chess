@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class Pawn extends Piece {
     private String color;
     private boolean alive;
+    private String teamcolor;
     private Position position;
     private boolean firstmove;
 
@@ -18,6 +19,18 @@ public class Pawn extends Piece {
         this.alive = true;
         this.position = position;
         this.firstmove = true;
+        if(color.equals("WHITE")){
+            teamcolor = "BLACK";
+        }
+        if(color.equals("BLACK")){
+            teamcolor = "WHITE";
+        }
+        if(color.equals("RED")){
+            teamcolor = "GREEN";
+        }
+        if(color.equals("GREEN")){
+            teamcolor = "RED";
+        }
     }
     @Override
     public void setPosition(Position pos) {
@@ -86,7 +99,9 @@ public class Pawn extends Piece {
         pos3.setY(this.position.getY()-1);
         if(pos3.isValid()){
             if(!btnex[pos3.getX()][pos3.getY()].getColor().equals("NONE") && !btnex[pos3.getX()][pos3.getY()].getColor().equals(this.color)){
-                canmove.add(pos3);
+                if(!btnex[pos3.getX()][pos3.getY()].getColor().equals(teamcolor)){
+                    canmove.add(pos3);
+                }
             }
         }
 
@@ -96,7 +111,9 @@ public class Pawn extends Piece {
         pos4.setY(this.position.getY()-1);
         if(pos.isValid()){
             if(!btnex[pos4.getX()][pos4.getY()].getColor().equals("NONE") && !btnex[pos4.getX()][pos4.getY()].getColor().equals(this.color)){
-                canmove.add(pos4);
+                if(!btnex[pos4.getX()][pos4.getY()].getColor().equals(teamcolor)){
+                    canmove.add(pos4);
+                }
             }
         }
 
