@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.cnlab.caucse.chessteample.Network.GroupManager;
 import com.cnlab.caucse.chessteample.Network.GroupManagerClient;
 import com.cnlab.caucse.chessteample.Network.GroupUser;
 
@@ -67,6 +68,7 @@ public class ClientActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ClientActivity.this, GameActivity.class);
+                intent.putExtra("playerColor", GroupManager.playerColors[groupManagerClient.getLocalIndex()]);
                 startActivity(intent);
             }
         });

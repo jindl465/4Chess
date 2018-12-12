@@ -11,12 +11,14 @@ public class GroupManagerClient implements GroupManager{
     private Context mContext = null;
     private String mGroupName = null;
     private List<GroupUser> mUserList = null;
+    private String mLocalAddress = null;
 
     private GroupInvitationReceiver mGroupInvitationReceiver = null;
 
     public GroupManagerClient(Context context) {
         mContext = context;
         mUserList = new ArrayList<>();
+        mLocalAddress = GroupUser.getLocalHost().getHostAddress();
     }
 
     public List<GroupUser> getUserList() {
@@ -50,6 +52,15 @@ public class GroupManagerClient implements GroupManager{
             mGroupInvitationReceiver = null;
             Log.d("Group Manager Client", "Stop Group Invitation Receiver");
         }
+    }
+
+    public int getLocalIndex() {
+        for(int i = 0; i < mUserList.size(); i++) {
+            if (mUserList.get(i).getIPAddress().equals(mLocalAddress)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
 }

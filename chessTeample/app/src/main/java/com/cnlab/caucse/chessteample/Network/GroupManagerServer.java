@@ -15,6 +15,7 @@ public class GroupManagerServer implements GroupManager{
     private Context mContext = null;
     private String mGroupName = null;
     private List<GroupUser> mUserList = null;
+    private String mLocalAddress = null;
 
     private PeriodicBroadcastSender mPeriodicBroadcastSender = null;
     private GroupTCPServer mGroupTCPServer = null;
@@ -23,6 +24,7 @@ public class GroupManagerServer implements GroupManager{
         mContext = context;
         mGroupName = randomNameGenerator();
         mUserList = new ArrayList<>();
+        mLocalAddress = GroupUser.getLocalHost().getHostAddress();
     }
 
     private String randomNameGenerator() {
@@ -127,6 +129,15 @@ public class GroupManagerServer implements GroupManager{
                 user.send(message);
             }
         }
+    }
+
+    public int getLocalIndex() {
+        for(int i = 0; i < mUserList.size(); i++) {
+            if (mUserList.get(i).getIPAddress().equals(mLocalAddress)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
 }
