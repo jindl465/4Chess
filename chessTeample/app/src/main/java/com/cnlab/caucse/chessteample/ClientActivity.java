@@ -18,12 +18,14 @@ import com.cnlab.caucse.chessteample.Network.GroupUser;
 
 public class ClientActivity extends AppCompatActivity {
 
+    GroupManagerClient groupManagerClient = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
 
-        final GroupManagerClient groupManagerClient = new GroupManagerClient(this);
+        groupManagerClient = new GroupManagerClient(this);
 
         LocalBroadcastManager.getInstance(this).registerReceiver(new BroadcastReceiver() {
             @Override
@@ -73,5 +75,23 @@ public class ClientActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        groupManagerClient.startReceivingGroupInvitation();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        groupManagerClient.stopReceivingGroupInvitation();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        groupManagerClient.stopReceivingGroupInvitation();
     }
 }

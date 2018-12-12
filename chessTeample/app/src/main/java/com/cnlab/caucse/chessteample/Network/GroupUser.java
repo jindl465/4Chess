@@ -81,7 +81,7 @@ public class GroupUser {
         }
     }
 
-    public void startReceive(final receiverTask task) {
+    public void startReceive(final receiverTask task, final Runnable leaveTask) {
         mReceiverThread = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -91,6 +91,7 @@ public class GroupUser {
                             String message = mBufferedReader.readLine();
                             if (message == null) {
                                 Log.d("GroupUser", getUserName() + "Error : Input stream returned null value");
+                                leaveTask.run();
                                 break;
                             }
                             else {

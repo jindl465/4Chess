@@ -46,7 +46,7 @@ public class GroupInvitationReceiver {
                                             groupManagerClient.getUserList().remove(i);
                                         }
                                         try {
-                                            for (int i = 1; i < membersIP.length ; i++) {
+                                            for (int i = 1; i < membersIP.length; i++) {
                                                 groupManagerClient.getUserList().add(new GroupUser(InetAddress.getByName(membersIP[i])));
                                             }
                                         } catch (UnknownHostException e) {
@@ -59,6 +59,11 @@ public class GroupInvitationReceiver {
                                         LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
                                         Log.d("GroupUser", "Message from Server: " + message);
                                     }
+                                }
+                            }, new Runnable() {
+                                @Override
+                                public void run() {
+                                    LocalBroadcastManager.getInstance(context).sendBroadcast(new Intent("DisconnectedToServer"));
                                 }
                             });
                             mBroadcastReceiveState = false;

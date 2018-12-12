@@ -72,6 +72,11 @@ public class GroupManagerServer implements GroupManager{
                     broadcastToGroup(message.substring("GROUP BROADCAST: ".length()), user);
                 }
             }
+        }, new Runnable() {
+            @Override
+            public void run() {
+                leaveGroup(user);
+            }
         });
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent("GroupMembersChanged"));
         Log.d("Group Manager", "JOIN USER: " + user.getUserName());
@@ -82,6 +87,7 @@ public class GroupManagerServer implements GroupManager{
         mUserList.remove(user);
         LocalBroadcastManager.getInstance(mContext).sendBroadcast(new Intent("GroupMembersChanged"));
         Log.d("Group Manager", "LEAVE USER: " + user.getUserName());
+        broadcastToGroup("GROUP " + this.getGroupName() + " MEMBERS:" + Arrays.toString(this.getUserList()));
     }
 
     public void startGroupTCPServer() {
@@ -132,9 +138,11 @@ public class GroupManagerServer implements GroupManager{
     }
 
     public int getLocalIndex() {
-        for(int i = 0; i < mUserList.size(); i++) {
-            if (mUserList.get(i).getIPAddress().equals(mLocalAddress)) {
-                return i;
+        synchronized (mUserList) {
+            for(int i = 0; i < mUserList.size(); i++) {
+                if (mUserList.get(i).getIPAddress().equals(mLocalAddress)) {
+                    return i;
+                }
             }
         }
         return -1;

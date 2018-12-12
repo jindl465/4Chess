@@ -80,6 +80,18 @@ public class ServerActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        groupManager.startBroadcastingGroupInvitation();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        groupManager.stopBroadcastingGroupInvitation();
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
         groupManager.stopBroadcastingGroupInvitation();
