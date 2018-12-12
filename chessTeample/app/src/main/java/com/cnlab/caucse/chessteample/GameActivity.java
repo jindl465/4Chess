@@ -12,6 +12,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.cnlab.caucse.chessteample.Network.GroupManagerClient;
+import com.cnlab.caucse.chessteample.Network.GroupManagerServer;
+
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 
@@ -312,6 +315,14 @@ public class GameActivity extends AppCompatActivity{
                                     }
                                     String msg = "";
                                     msg = msg + mycolor + ":" + Integer.toString(findx)+":" + Integer.toString(findy)+":" + Integer.toString(finalI)+":" + Integer.toString(finalJ);
+
+                                    if(mycolor.equals("BLACK")){
+                                        GroupManagerServer.broadcastToGroup(msg);
+                                    }
+                                    else{
+                                        GroupManagerClient.broadcastToGroup(msg);
+                                    }
+
                                     checkcheck();
                                 }
 
@@ -1000,46 +1011,46 @@ public class GameActivity extends AppCompatActivity{
                 btnEx[i][12] = new Tile("PAWN", "GREEN", new Position(i,12));
             }
 
-            btn[0][3].setImageResource(R.mipmap.rook_black);
-            btnEx[0][3] = new Tile("ROOK", "BLACK", new Position(0,3));
-            btn[0][4].setImageResource(R.mipmap.knight_black);
-            btnEx[0][4] = new Tile("KNIGHT", "BLACK", new Position(0,4));
-            btn[0][5].setImageResource(R.mipmap.bishop_black);
-            btnEx[0][5] = new Tile("BISHOP", "BLACK", new Position(0,5));
-            btn[0][6].setImageResource(R.mipmap.king_black);
-            btnEx[0][6] = new Tile("KING", "BLACK", new Position(0,6));
-            btn[0][7].setImageResource(R.mipmap.queen_black);
-            btnEx[0][7] = new Tile("QUEEN", "BLACK", new Position(0,7));
-            btn[0][8].setImageResource(R.mipmap.bishop_black);
-            btnEx[0][8] = new Tile("BISHOP", "BLACK", new Position(0,8));
-            btn[0][9].setImageResource(R.mipmap.knight_black);
-            btnEx[0][9] = new Tile("KNIGHT", "BLACK", new Position(0,9));
-            btn[0][10].setImageResource(R.mipmap.rook_black);
-            btnEx[0][10] = new Tile("ROOK", "BLACK", new Position(0,10));
+            btn[0][3].setImageResource(R.mipmap.rook_white);
+            btnEx[0][3] = new Tile("ROOK", "WHITE", new Position(0,3));
+            btn[0][4].setImageResource(R.mipmap.knight_white);
+            btnEx[0][4] = new Tile("KNIGHT", "WHITE", new Position(0,4));
+            btn[0][5].setImageResource(R.mipmap.bishop_white);
+            btnEx[0][5] = new Tile("BISHOP", "WHITE", new Position(0,5));
+            btn[0][6].setImageResource(R.mipmap.king_white);
+            btnEx[0][6] = new Tile("KING", "WHITE", new Position(0,6));
+            btn[0][7].setImageResource(R.mipmap.queen_white);
+            btnEx[0][7] = new Tile("QUEEN", "WHITE", new Position(0,7));
+            btn[0][8].setImageResource(R.mipmap.bishop_white);
+            btnEx[0][8] = new Tile("BISHOP", "WHITE", new Position(0,8));
+            btn[0][9].setImageResource(R.mipmap.knight_white);
+            btnEx[0][9] = new Tile("KNIGHT", "WHITE", new Position(0,9));
+            btn[0][10].setImageResource(R.mipmap.rook_white);
+            btnEx[0][10] = new Tile("ROOK", "WHITE", new Position(0,10));
             for(int i = 3; i < 11; i++){
-                btn[1][i].setImageResource(R.mipmap.pawn_black);
-                btnEx[1][i] = new Tile("PAWN", "BLACK", new Position(1,i));
+                btn[1][i].setImageResource(R.mipmap.pawn_white);
+                btnEx[1][i] = new Tile("PAWN", "WHITE", new Position(1,i));
             }
 
-            btn[13][3].setImageResource(R.mipmap.rook_white);
-            btnEx[13][3] = new Tile("ROOK", "WHITE", new Position(13,3));
-            btn[13][4].setImageResource(R.mipmap.knight_white);
-            btnEx[13][4] = new Tile("KNIGHT", "WHITE", new Position(13,4));
-            btn[13][5].setImageResource(R.mipmap.bishop_white);
-            btnEx[13][5] = new Tile("BISHOP", "WHITE", new Position(13,5));
-            btn[13][6].setImageResource(R.mipmap.queen_white);
-            btnEx[13][6] = new Tile("QUEEN", "WHITE", new Position(13, 6));
-            btn[13][7].setImageResource(R.mipmap.king_white);
-            btnEx[13][7] = new Tile("KING", "WHITE", new Position(13,7));
-            btn[13][8].setImageResource(R.mipmap.bishop_white);
-            btnEx[13][8] = new Tile("BISHOP", "WHITE", new Position(13,8));
-            btn[13][9].setImageResource(R.mipmap.knight_white);
-            btnEx[13][9] = new Tile("KNIGHT", "WHITE", new Position(13,9));
-            btn[13][10].setImageResource(R.mipmap.rook_white);
-            btnEx[13][10] = new Tile("ROOK", "WHITE", new Position(13,10));
+            btn[13][3].setImageResource(R.mipmap.rook_black);
+            btnEx[13][3] = new Tile("ROOK", "BLACK", new Position(13,3));
+            btn[13][4].setImageResource(R.mipmap.knight_black);
+            btnEx[13][4] = new Tile("KNIGHT", "BLACK", new Position(13,4));
+            btn[13][5].setImageResource(R.mipmap.bishop_black);
+            btnEx[13][5] = new Tile("BISHOP", "BLACK", new Position(13,5));
+            btn[13][6].setImageResource(R.mipmap.queen_black);
+            btnEx[13][6] = new Tile("QUEEN", "BLACK", new Position(13, 6));
+            btn[13][7].setImageResource(R.mipmap.king_black);
+            btnEx[13][7] = new Tile("KING", "BLACK", new Position(13,7));
+            btn[13][8].setImageResource(R.mipmap.bishop_black);
+            btnEx[13][8] = new Tile("BISHOP", "BLACK", new Position(13,8));
+            btn[13][9].setImageResource(R.mipmap.knight_black);
+            btnEx[13][9] = new Tile("KNIGHT", "BLACK", new Position(13,9));
+            btn[13][10].setImageResource(R.mipmap.rook_black);
+            btnEx[13][10] = new Tile("ROOK", "BLACK", new Position(13,10));
             for(int i = 3; i < 11; i++){
-                btn[12][i].setImageResource(R.mipmap.pawn_white);
-                btnEx[12][i] = new Tile("PAWN", "WHITE", new Position(12,i));
+                btn[12][i].setImageResource(R.mipmap.pawn_black);
+                btnEx[12][i] = new Tile("PAWN", "BLACK", new Position(12,i));
             }
         }
         if(mycolor.equals("RED")){
@@ -1088,46 +1099,46 @@ public class GameActivity extends AppCompatActivity{
                 btnEx[i][12] = new Tile("PAWN", "RED", new Position(i,12));
             }
 
-            btn[0][3].setImageResource(R.mipmap.rook_white);
-            btnEx[0][3] = new Tile("ROOK", "WHITE", new Position(0,3));
-            btn[0][4].setImageResource(R.mipmap.knight_white);
-            btnEx[0][4] = new Tile("KNIGHT", "WHITE", new Position(0,4));
-            btn[0][5].setImageResource(R.mipmap.bishop_white);
-            btnEx[0][5] = new Tile("BISHOP", "WHITE", new Position(0,5));
-            btn[0][6].setImageResource(R.mipmap.king_white);
-            btnEx[0][6] = new Tile("KING", "WHITE", new Position(0,6));
-            btn[0][7].setImageResource(R.mipmap.queen_white);
-            btnEx[0][7] = new Tile("QUEEN", "WHITE", new Position(0,7));
-            btn[0][8].setImageResource(R.mipmap.bishop_white);
-            btnEx[0][8] = new Tile("BISHOP", "WHITE", new Position(0,8));
-            btn[0][9].setImageResource(R.mipmap.knight_white);
-            btnEx[0][9] = new Tile("KNIGHT", "WHITE", new Position(0,9));
-            btn[0][10].setImageResource(R.mipmap.rook_white);
-            btnEx[0][10] = new Tile("ROOK", "WHITE", new Position(0,10));
+            btn[0][3].setImageResource(R.mipmap.rook_black);
+            btnEx[0][3] = new Tile("ROOK", "BLACK", new Position(0,3));
+            btn[0][4].setImageResource(R.mipmap.knight_black);
+            btnEx[0][4] = new Tile("KNIGHT", "BLACK", new Position(0,4));
+            btn[0][5].setImageResource(R.mipmap.bishop_black);
+            btnEx[0][5] = new Tile("BISHOP", "BLACK", new Position(0,5));
+            btn[0][6].setImageResource(R.mipmap.king_black);
+            btnEx[0][6] = new Tile("KING", "BLACK", new Position(0,6));
+            btn[0][7].setImageResource(R.mipmap.queen_black);
+            btnEx[0][7] = new Tile("QUEEN", "BLACK", new Position(0,7));
+            btn[0][8].setImageResource(R.mipmap.bishop_black);
+            btnEx[0][8] = new Tile("BISHOP", "BLACK", new Position(0,8));
+            btn[0][9].setImageResource(R.mipmap.knight_black);
+            btnEx[0][9] = new Tile("KNIGHT", "BLACK", new Position(0,9));
+            btn[0][10].setImageResource(R.mipmap.rook_black);
+            btnEx[0][10] = new Tile("ROOK", "BLACK", new Position(0,10));
             for(int i = 3; i < 11; i++){
-                btn[1][i].setImageResource(R.mipmap.pawn_white);
-                btnEx[1][i] = new Tile("PAWN", "WHITE", new Position(1,i));
+                btn[1][i].setImageResource(R.mipmap.pawn_black);
+                btnEx[1][i] = new Tile("PAWN", "BLACK", new Position(1,i));
             }
 
-            btn[13][3].setImageResource(R.mipmap.rook_black);
-            btnEx[13][3] = new Tile("ROOK", "BLACK", new Position(13,3));
-            btn[13][4].setImageResource(R.mipmap.knight_black);
-            btnEx[13][4] = new Tile("KNIGHT", "BLACK", new Position(13,4));
-            btn[13][5].setImageResource(R.mipmap.bishop_black);
-            btnEx[13][5] = new Tile("BISHOP", "BLACK", new Position(13,5));
-            btn[13][6].setImageResource(R.mipmap.queen_black);
-            btnEx[13][6] = new Tile("QUEEN", "BLACK", new Position(13, 6));
-            btn[13][7].setImageResource(R.mipmap.king_black);
-            btnEx[13][7] = new Tile("KING", "BLACK", new Position(13,7));
-            btn[13][8].setImageResource(R.mipmap.bishop_black);
-            btnEx[13][8] = new Tile("BISHOP", "BLACK", new Position(13,8));
-            btn[13][9].setImageResource(R.mipmap.knight_black);
-            btnEx[13][9] = new Tile("KNIGHT", "BLACK", new Position(13,9));
-            btn[13][10].setImageResource(R.mipmap.rook_black);
-            btnEx[13][10] = new Tile("ROOK", "BLACK", new Position(13,10));
+            btn[13][3].setImageResource(R.mipmap.rook_white);
+            btnEx[13][3] = new Tile("ROOK", "WHITE", new Position(13,3));
+            btn[13][4].setImageResource(R.mipmap.knight_white);
+            btnEx[13][4] = new Tile("KNIGHT", "WHITE", new Position(13,4));
+            btn[13][5].setImageResource(R.mipmap.bishop_white);
+            btnEx[13][5] = new Tile("BISHOP", "WHITE", new Position(13,5));
+            btn[13][6].setImageResource(R.mipmap.queen_white);
+            btnEx[13][6] = new Tile("QUEEN", "WHITE", new Position(13, 6));
+            btn[13][7].setImageResource(R.mipmap.king_white);
+            btnEx[13][7] = new Tile("KING", "WHITE", new Position(13,7));
+            btn[13][8].setImageResource(R.mipmap.bishop_white);
+            btnEx[13][8] = new Tile("BISHOP", "WHITE", new Position(13,8));
+            btn[13][9].setImageResource(R.mipmap.knight_white);
+            btnEx[13][9] = new Tile("KNIGHT", "WHITE", new Position(13,9));
+            btn[13][10].setImageResource(R.mipmap.rook_white);
+            btnEx[13][10] = new Tile("ROOK", "WHITE", new Position(13,10));
             for(int i = 3; i < 11; i++){
-                btn[12][i].setImageResource(R.mipmap.pawn_black);
-                btnEx[12][i] = new Tile("PAWN", "BLACK", new Position(12,i));
+                btn[12][i].setImageResource(R.mipmap.pawn_white);
+                btnEx[12][i] = new Tile("PAWN", "WHITE", new Position(12,i));
             }
         }
 }
