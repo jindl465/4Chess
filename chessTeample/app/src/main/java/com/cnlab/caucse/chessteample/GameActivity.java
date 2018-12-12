@@ -1,25 +1,16 @@
 package com.cnlab.caucse.chessteample;
 
-import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.graphics.Color;
-import android.media.Image;
-import android.support.annotation.DrawableRes;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
-
-import com.cnlab.caucse.chessteample.Network.GroupManager;
-import com.cnlab.caucse.chessteample.Network.GroupManagerClient;
-import com.cnlab.caucse.chessteample.Piece.Bishop;
-import com.cnlab.caucse.chessteample.Piece.King;
-import com.cnlab.caucse.chessteample.Piece.Knight;
-import com.cnlab.caucse.chessteample.Piece.Pawn;
-import com.cnlab.caucse.chessteample.Piece.Queen;
-import com.cnlab.caucse.chessteample.Piece.Rook;
 
 import java.util.ArrayList;
 import java.util.StringTokenizer;
@@ -37,6 +28,8 @@ public class GameActivity extends AppCompatActivity{
     private TextView checkid;
     private boolean flag;
     private ArrayList<Position> cantouch;
+
+    public static final String[] playerColors = {"BLACK", "WHITE", "RED", "GREEN"};
 
     // Used to load the 'native-lib' library on application startup.
     static {
@@ -73,8 +66,17 @@ public class GameActivity extends AppCompatActivity{
         setStartTile();
         setbcl();
 
+        //GroupManagerServer.broadcastToGroup(message);
 
         context = this;
+
+        BroadcastReceiver GroupMessageReceived = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                Movelistener(intent.getStringExtra("message"));
+            }
+        };
+        LocalBroadcastManager.getInstance(this).registerReceiver(GroupMessageReceived, new IntentFilter("GroupMessageReceived"));
     }
 
     public Tile[][] getBtnEx() {

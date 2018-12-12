@@ -10,11 +10,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class GroupManagerServer implements GroupManager{
+public class GroupManagerServer{
 
     private Context mContext = null;
     private String mGroupName = null;
-    private List<GroupUser> mUserList = null;
+    private static List<GroupUser> mUserList = null;
     private String mLocalAddress = null;
 
     private PeriodicBroadcastSender mPeriodicBroadcastSender = null;
@@ -43,7 +43,6 @@ public class GroupManagerServer implements GroupManager{
         return tmp.toString();
     }
 
-    @Override
     public String getGroupName() {
         return mGroupName;
     }
@@ -131,12 +130,11 @@ public class GroupManagerServer implements GroupManager{
         }
     }
 
-    @Override
-    public void broadcastToGroup(String message) {
+    public static void broadcastToGroup(String message) {
         broadcastToGroup(message, null);
     }
 
-    public synchronized void broadcastToGroup(String message, GroupUser from) {
+    public static synchronized void broadcastToGroup(String message, GroupUser from) {
         Log.d("Group Manager", "Relay to Another Group Members: " + message);
         for(GroupUser user : mUserList) {
             if (user != from) {

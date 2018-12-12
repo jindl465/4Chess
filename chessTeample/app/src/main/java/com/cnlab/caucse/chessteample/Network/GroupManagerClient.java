@@ -6,11 +6,11 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupManagerClient implements GroupManager{
+public class GroupManagerClient{
 
     private Context mContext = null;
     private String mGroupName = null;
-    private List<GroupUser> mUserList = null;
+    private static List<GroupUser> mUserList = null;
     private String mLocalAddress = null;
 
     private GroupInvitationReceiver mGroupInvitationReceiver = null;
@@ -33,8 +33,7 @@ public class GroupManagerClient implements GroupManager{
         return mGroupName;
     }
 
-    @Override
-    public void broadcastToGroup(String message) {
+    public static void broadcastToGroup(String message) {
         mUserList.get(0).send("GROUP BROADCAST: " + message);
     }
 
@@ -62,5 +61,5 @@ public class GroupManagerClient implements GroupManager{
         }
         return -1;
     }
-    
+
 }

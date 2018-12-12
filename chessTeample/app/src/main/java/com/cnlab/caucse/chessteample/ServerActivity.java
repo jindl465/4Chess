@@ -13,7 +13,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.cnlab.caucse.chessteample.Network.GroupManager;
 import com.cnlab.caucse.chessteample.Network.GroupManagerServer;
 import com.cnlab.caucse.chessteample.Network.GroupUser;
 
@@ -80,7 +79,7 @@ public class ServerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ServerActivity.this, GameActivity.class);
-                intent.putExtra("playerColor", GroupManager.playerColors[groupManager.getLocalIndex()]);
+                intent.putExtra("playerColor", GameActivity.playerColors[groupManager.getLocalIndex()]);
                 startActivity(intent);
             }
         });
