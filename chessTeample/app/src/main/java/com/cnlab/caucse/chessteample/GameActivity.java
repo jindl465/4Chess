@@ -31,7 +31,7 @@ public class GameActivity extends AppCompatActivity{
     private TextView checkid;
     private boolean flag;
     private ArrayList<Position> cantouch;
-
+    public boolean myturn;
     public static final String[] playerColors = {"BLACK", "WHITE", "RED", "GREEN"};
 
     // Used to load the 'native-lib' library on application startup.
@@ -72,11 +72,31 @@ public class GameActivity extends AppCompatActivity{
         //GroupManagerServer.broadcastToGroup(message);
 
         context = this;
+        myturn = false;
+        if(mycolor.equals("BLACK")){
+            myturn = true;
+        }
 
         BroadcastReceiver GroupMessageReceived = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Movelistener(intent.getStringExtra("message"));
+                String msg = intent.getStringExtra("message");
+                if(msg.equals("BLACKEND") && mycolor.equals("RED")){
+                    myturn = true;
+                }
+                else if(msg.equals("REDEND") && mycolor.equals("WHITE")){
+                    myturn = true;
+                }
+                else if(msg.equals("WHITEEND") && mycolor.equals("GREEN")){
+                    myturn = true;
+                }
+                else if(msg.equals("GREENEND") && mycolor.equals("BLACK")){
+                    myturn = true;
+                }
+                else if(msg.length()>9){
+                    Movelistener(msg);
+                }
+
             }
         };
         LocalBroadcastManager.getInstance(this).registerReceiver(GroupMessageReceived, new IntentFilter("GroupMessageReceived"));
@@ -178,173 +198,186 @@ public class GameActivity extends AppCompatActivity{
                 btn[i][j].setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(flag == false){
-                            if(btnEx[finalI][finalJ].isOnPiece() == true && btnEx[finalI][finalJ].getColor().equals(mycolor)){
-                                flag = true;
-                                btnEx[finalI][finalJ].setActive(true);
-                              //  Log.d("why1",Integer.toString(finalI));
-                              //  Log.d("why1",Integer.toString(finalJ));
-                                cantouch = new ArrayList<Position>(btnEx[finalI][finalJ].getPiece().getCanMoves(btnEx));
-                              //  Log.d("why2",Integer.toString(btnEx[finalI][finalJ].getPiece().getPosition().getX()));
-                              //  Log.d("why2",Integer.toString(btnEx[finalI][finalJ].getPiece().getPosition().getY()));
-                                for(int q=0; q<cantouch.size(); q++){
-                                    btn[cantouch.get(q).getX()][cantouch.get(q).getY()].setBackgroundResource(R.drawable.buttonshapered);
+                        if (myturn == true){
+                            if (flag == false) {
+                                if (btnEx[finalI][finalJ].isOnPiece() == true && btnEx[finalI][finalJ].getColor().equals(mycolor)) {
+                                    flag = true;
+                                    btnEx[finalI][finalJ].setActive(true);
+                                    //  Log.d("why1",Integer.toString(finalI));
+                                    //  Log.d("why1",Integer.toString(finalJ));
+                                    cantouch = new ArrayList<Position>(btnEx[finalI][finalJ].getPiece().getCanMoves(btnEx));
+                                    //  Log.d("why2",Integer.toString(btnEx[finalI][finalJ].getPiece().getPosition().getX()));
+                                    //  Log.d("why2",Integer.toString(btnEx[finalI][finalJ].getPiece().getPosition().getY()));
+                                    for (int q = 0; q < cantouch.size(); q++) {
+                                        btn[cantouch.get(q).getX()][cantouch.get(q).getY()].setBackgroundResource(R.drawable.buttonshapered);
+                                    }
                                 }
-                            }
-                        }
-                        else if(flag == true){
-                            Log.d("why", Integer.toString(finalI));
-                            Log.d("why", Integer.toString(finalJ));
-                            int findx = 0, findy = 0;
-                            int mflag = 0;
-                            for(int k = 0 ; k < cantouch.size(); k++) {
-                                Log.d("why@@", Integer.toString(cantouch.get(k).getX()));
-                                Log.d("why@@",Integer.toString(cantouch.get(k).getY()));
-                                if (cantouch.get(k).getX() == finalI && cantouch.get(k).getY() == finalJ){
-                                    Log.d("why", "ok");
-                                    for(findx = 0 ; findx<=13; findx++){
-                                        for(findy = 0; findy <=13; findy++){
-                                            if(btnEx[findx][findy].getActive() ==true){
-                                                btnEx[findx][findy].setActive(false);
-                                                if(btnEx[findx][findy].getPiecetype()=="PAWN"){
-                                                    if((findy-finalJ)==2){
-                                                        Log.d("whyeee","ok");
-                                                        btnEx[findx][findy].getPiece().setFirstmove(false);
+                            } else if (flag == true) {
+                                Log.d("why", Integer.toString(finalI));
+                                Log.d("why", Integer.toString(finalJ));
+                                int findx = 0, findy = 0;
+                                int mflag = 0;
+                                for (int k = 0; k < cantouch.size(); k++) {
+                                    Log.d("why@@", Integer.toString(cantouch.get(k).getX()));
+                                    Log.d("why@@", Integer.toString(cantouch.get(k).getY()));
+                                    if (cantouch.get(k).getX() == finalI && cantouch.get(k).getY() == finalJ) {
+                                        Log.d("why", "ok");
+                                        for (findx = 0; findx <= 13; findx++) {
+                                            for (findy = 0; findy <= 13; findy++) {
+                                                if (btnEx[findx][findy].getActive() == true) {
+                                                    btnEx[findx][findy].setActive(false);
+                                                    if (btnEx[findx][findy].getPiecetype() == "PAWN") {
+                                                        if ((findy - finalJ) == 2) {
+                                                            Log.d("whyeee", "ok");
+                                                            btnEx[findx][findy].getPiece().setFirstmove(false);
+                                                        }
                                                     }
+                                                    mflag = 1;
+                                                    break;
                                                 }
-                                                mflag = 1;
-                                                break;
+                                            }
+                                            if (mflag == 1) break;
+                                        }
+                                        btnEx[finalI][finalJ].setColor(btnEx[findx][findy].getColor());
+                                        btnEx[finalI][finalJ].setOnPiece(true);
+                                        Log.d("why1", btnEx[finalI][finalJ].getColor());
+
+                                        btnEx[findx][findy].getPiece().setPosition(new Position(finalI, finalJ));
+
+                                        btnEx[finalI][finalJ].setPiecetype(btnEx[findx][findy].getPiecetype());
+                                        Log.d("why1", btnEx[finalI][finalJ].getPiecetype());
+                                        btnEx[finalI][finalJ].setPiece(btnEx[findx][findy].getPiece());
+                                        btnEx[findx][findy].setPiece(null);
+                                        btnEx[findx][findy].setPiecetype("NONE");
+                                        btnEx[findx][findy].setColor("NONE");
+                                        btnEx[findx][findy].setOnPiece(false);
+                                        btn[findx][findy].setImageResource(0);
+
+                                        if (btnEx[finalI][finalJ].getColor().equals("BLACK")) {
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "ROOK")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.rook_black);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "KNIGHT")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.knight_black);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "BISHOP")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.bishop_black);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "KING")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.king_black);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "QUEEN")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.queen_black);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "PAWN")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.pawn_black);
+                                        }
+
+                                        if (btnEx[finalI][finalJ].getColor().equals("WHITE")) {
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "ROOK")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.rook_white);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "KNIGHT")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.knight_white);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "BISHOP")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.bishop_white);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "KING")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.king_white);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "QUEEN")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.queen_white);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "PAWN")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.pawn_white);
+                                        }
+
+                                        if (btnEx[finalI][finalJ].getColor().equals("RED")) {
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "ROOK")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.rook_red);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "KNIGHT")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.knight_red);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "BISHOP")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.bishop_red);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "KING")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.king_red);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "QUEEN")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.queen_red);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "PAWN")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.pawn_red);
+                                        }
+
+                                        if (btnEx[finalI][finalJ].getColor().equals("GREEN")) {
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "ROOK")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.rook_green);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "KNIGHT")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.knight_green);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "BISHOP")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.bishop_green);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "KING")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.king_green);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "QUEEN")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.queen_green);
+
+                                            if (btnEx[finalI][finalJ].getPiecetype() == "PAWN")
+                                                btn[finalI][finalJ].setImageResource(R.mipmap.pawn_green);
+
+                                        }
+                                        String msg = "";
+                                        msg = msg + mycolor + ":" + Integer.toString(findx) + ":" + Integer.toString(findy) + ":" + Integer.toString(finalI) + ":" + Integer.toString(finalJ);
+
+                                        if (mycolor.equals("BLACK")) {
+                                            GroupManagerServer.broadcastToGroup(msg);
+                                            GroupManagerServer.broadcastToGroup("BLACKEND");
+                                            myturn = false;
+                                        } else {
+                                            GroupManagerClient.broadcastToGroup(msg);
+                                            if(mycolor.equals("RED")){
+                                                GroupManagerClient.broadcastToGroup("REDEND");
+                                                myturn = false;
+                                            }
+                                            if(mycolor.equals("GREEN")){
+                                                GroupManagerClient.broadcastToGroup("GREENEND");
+                                                myturn = false;
+                                            }
+                                            if(mycolor.equals("WHITE")){
+                                                GroupManagerClient.broadcastToGroup("WHITEEND");
+                                                myturn = false;
                                             }
                                         }
-                                        if(mflag==1) break;
-                                    }
-                                    btnEx[finalI][finalJ].setColor(btnEx[findx][findy].getColor());
-                                    btnEx[finalI][finalJ].setOnPiece(true);
-                                    Log.d("why1",btnEx[finalI][finalJ].getColor());
 
-                                    btnEx[findx][findy].getPiece().setPosition(new Position(finalI,finalJ));
-
-                                    btnEx[finalI][finalJ].setPiecetype(btnEx[findx][findy].getPiecetype());
-                                    Log.d("why1",btnEx[finalI][finalJ].getPiecetype());
-                                    btnEx[finalI][finalJ].setPiece(btnEx[findx][findy].getPiece());
-                                    btnEx[findx][findy].setPiece(null);
-                                    btnEx[findx][findy].setPiecetype("NONE");
-                                    btnEx[findx][findy].setColor("NONE");
-                                    btnEx[findx][findy].setOnPiece(false);
-                                    btn[findx][findy].setImageResource(0);
-
-                                    if(btnEx[finalI][finalJ].getColor().equals("BLACK")) {
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="ROOK")
-                                        btn[finalI][finalJ].setImageResource(R.mipmap.rook_black);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="KNIGHT")
-                                        btn[finalI][finalJ].setImageResource(R.mipmap.knight_black);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="BISHOP")
-                                        btn[finalI][finalJ].setImageResource(R.mipmap.bishop_black);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="KING")
-                                        btn[finalI][finalJ].setImageResource(R.mipmap.king_black);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="QUEEN")
-                                        btn[finalI][finalJ].setImageResource(R.mipmap.queen_black);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="PAWN")
-                                        btn[finalI][finalJ].setImageResource(R.mipmap.pawn_black);
+                                        checkcheck();
                                     }
 
-                                    if(btnEx[finalI][finalJ].getColor().equals("WHITE")) {
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="ROOK")
-                                            btn[finalI][finalJ].setImageResource(R.mipmap.rook_white);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="KNIGHT")
-                                            btn[finalI][finalJ].setImageResource(R.mipmap.knight_white);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="BISHOP")
-                                            btn[finalI][finalJ].setImageResource(R.mipmap.bishop_white);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="KING")
-                                            btn[finalI][finalJ].setImageResource(R.mipmap.king_white);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="QUEEN")
-                                            btn[finalI][finalJ].setImageResource(R.mipmap.queen_white);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="PAWN")
-                                            btn[finalI][finalJ].setImageResource(R.mipmap.pawn_white);
-                                    }
-
-                                    if(btnEx[finalI][finalJ].getColor().equals("RED")) {
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="ROOK")
-                                            btn[finalI][finalJ].setImageResource(R.mipmap.rook_red);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="KNIGHT")
-                                            btn[finalI][finalJ].setImageResource(R.mipmap.knight_red);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="BISHOP")
-                                            btn[finalI][finalJ].setImageResource(R.mipmap.bishop_red);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="KING")
-                                            btn[finalI][finalJ].setImageResource(R.mipmap.king_red);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="QUEEN")
-                                            btn[finalI][finalJ].setImageResource(R.mipmap.queen_red);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="PAWN")
-                                            btn[finalI][finalJ].setImageResource(R.mipmap.pawn_red);
-                                    }
-
-                                    if(btnEx[finalI][finalJ].getColor().equals("GREEN")) {
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="ROOK")
-                                            btn[finalI][finalJ].setImageResource(R.mipmap.rook_green);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="KNIGHT")
-                                            btn[finalI][finalJ].setImageResource(R.mipmap.knight_green);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="BISHOP")
-                                            btn[finalI][finalJ].setImageResource(R.mipmap.bishop_green);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="KING")
-                                            btn[finalI][finalJ].setImageResource(R.mipmap.king_green);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="QUEEN")
-                                            btn[finalI][finalJ].setImageResource(R.mipmap.queen_green);
-
-                                        if(btnEx[finalI][finalJ].getPiecetype()=="PAWN")
-                                            btn[finalI][finalJ].setImageResource(R.mipmap.pawn_green);
-
-                                    }
-                                    String msg = "";
-                                    msg = msg + mycolor + ":" + Integer.toString(findx)+":" + Integer.toString(findy)+":" + Integer.toString(finalI)+":" + Integer.toString(finalJ);
-
-                                    if(mycolor.equals("BLACK")){
-                                        GroupManagerServer.broadcastToGroup(msg);
-                                    }
-                                    else{
-                                        GroupManagerClient.broadcastToGroup(msg);
-                                    }
-
-                                    checkcheck();
                                 }
-
+                                for (findx = 0; findx <= 13; findx++) {
+                                    for (findy = 0; findy <= 13; findy++) {
+                                        if (btnEx[findx][findy].getActive() == true) {
+                                            btnEx[findx][findy].setActive(false);
+                                            break;
+                                        }
+                                    }
+                                }
+                                for (int q = 0; q < cantouch.size(); q++) {
+                                    if ((cantouch.get(q).getX() + cantouch.get(q).getY()) % 2 == 1) {
+                                        btn[cantouch.get(q).getX()][cantouch.get(q).getY()].setBackgroundResource(R.drawable.buttonshapegray);
+                                    } else {
+                                        btn[cantouch.get(q).getX()][cantouch.get(q).getY()].setBackgroundResource(R.drawable.buttonshapewhite);
+                                    }
+                                }
+                                flag = false;
                             }
-                            for(findx = 0 ; findx<=13; findx++){
-                                for(findy = 0; findy <=13; findy++){
-                                    if(btnEx[findx][findy].getActive() ==true){
-                                        btnEx[findx][findy].setActive(false);
-                                        break;
-                                    }
-                                }
-                            }
-                            for(int q=0; q<cantouch.size(); q++){
-                                if((cantouch.get(q).getX()+cantouch.get(q).getY())%2 == 1){
-                                    btn[cantouch.get(q).getX()][cantouch.get(q).getY()].setBackgroundResource(R.drawable.buttonshapegray);
-                                }
-                                else{
-                                    btn[cantouch.get(q).getX()][cantouch.get(q).getY()].setBackgroundResource(R.drawable.buttonshapewhite);
-                                }
-                            }
-                            flag = false;
-                        }
+                    }
                     }
                 });
 
@@ -383,7 +416,7 @@ public class GameActivity extends AppCompatActivity{
                 oney = 13-temp;
                 int temp2 = twox;
                 twox = twoy;
-                twoy = 13-temp;
+                twoy = 13-temp2;
             }
             if(listencolor.equals("RED")){
                 int temp = onex;
@@ -391,7 +424,7 @@ public class GameActivity extends AppCompatActivity{
                 oney = temp;
                 int temp2 = twox;
                 twox = 13 - twoy;
-                twoy = temp;
+                twoy = temp2;
             }
             if(listencolor.equals("BLACK")){
                 onex= 13-onex;
@@ -407,7 +440,7 @@ public class GameActivity extends AppCompatActivity{
                 oney = 13-temp;
                 int temp2 = twox;
                 twox = twoy;
-                twoy = 13-temp;
+                twoy = 13-temp2;
             }
             if(listencolor.equals("GREEN")){
                 int temp = onex;
@@ -415,7 +448,7 @@ public class GameActivity extends AppCompatActivity{
                 oney = temp;
                 int temp2 = twox;
                 twox = 13 - twoy;
-                twoy = temp;
+                twoy = temp2;
             }
             if(listencolor.equals("WHITE")){
                 onex= 13-onex;
@@ -431,7 +464,7 @@ public class GameActivity extends AppCompatActivity{
                 oney = 13-temp;
                 int temp2 = twox;
                 twox = twoy;
-                twoy = 13-temp;
+                twoy = 13-temp2;
             }
             if(listencolor.equals("BLACK")){
                 int temp = onex;
@@ -439,7 +472,7 @@ public class GameActivity extends AppCompatActivity{
                 oney = temp;
                 int temp2 = twox;
                 twox = 13 - twoy;
-                twoy = temp;
+                twoy = temp2;
             }
             if(listencolor.equals("GREEN")){
                 onex= 13-onex;
@@ -455,7 +488,7 @@ public class GameActivity extends AppCompatActivity{
                 oney = 13-temp;
                 int temp2 = twox;
                 twox = twoy;
-                twoy = 13-temp;
+                twoy = 13-temp2;
             }
             if(listencolor.equals("WHITE")){
                 int temp = onex;
@@ -463,7 +496,7 @@ public class GameActivity extends AppCompatActivity{
                 oney = temp;
                 int temp2 = twox;
                 twox = 13 - twoy;
-                twoy = temp;
+                twoy = temp2;
             }
             if(listencolor.equals("RED")){
                 onex= 13-onex;
