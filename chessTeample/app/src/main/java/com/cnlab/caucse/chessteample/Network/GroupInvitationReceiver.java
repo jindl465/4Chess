@@ -43,11 +43,16 @@ public class GroupInvitationReceiver {
                                     if (message.startsWith("GROUP ") && message.startsWith(" MEMBERS:", 11)) {
                                         String[] membersIP = message.substring(21, message.length() - 1).split(", ");
                                         synchronized (groupManagerClient) {
-                                            for (int i = 1; i < groupManagerClient.getUserList().size(); i++) {
-                                                groupManagerClient.getUserList().remove(i);
-                                            }
+                                            GroupUser server = groupManagerClient.getUserList().get(0);
+                                            groupManagerClient.getUserList().clear();
+                                            groupManagerClient.getUserList().add(server);
                                             try {
                                                 for (int i = 1; i < membersIP.length; i++) {
+                                                    for(GroupUser user : groupManagerClient.getUserList()) {
+                                                        if (user.getIPAddress().equals(membersIP[i])) {
+                                                            continue;
+                                                        }
+                                                    }
                                                     groupManagerClient.getUserList().add(new GroupUser(InetAddress.getByName(membersIP[i])));
                                                 }
                                             } catch (UnknownHostException e) {
