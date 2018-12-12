@@ -71,11 +71,12 @@ public class GroupManagerServer{
             public void process(String message) {
                 Intent intent = new Intent("GroupMessageReceived");
                 intent.putExtra("from", user.getIPAddress());
+                if (message.startsWith("GROUP BROADCAST: ")) {
+                    message = message.substring("GROUP BROADCAST: ".length());
+                    broadcastToGroup(message, user);
+                }
                 intent.putExtra("message", message);
                 LocalBroadcastManager.getInstance(mContext).sendBroadcast(intent);
-                if (message.startsWith("GROUP BROADCAST: ")) {
-                    broadcastToGroup(message.substring("GROUP BROADCAST: ".length()), user);
-                }
             }
         }, new Runnable() {
             @Override
