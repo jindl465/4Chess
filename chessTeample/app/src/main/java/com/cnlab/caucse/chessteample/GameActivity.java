@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.cnlab.caucse.chessteample.Network.GroupManager;
 import com.cnlab.caucse.chessteample.Network.GroupManagerClient;
+import com.cnlab.caucse.chessteample.Network.GroupManagerServer;
 import com.cnlab.caucse.chessteample.Piece.Bishop;
 import com.cnlab.caucse.chessteample.Piece.King;
 import com.cnlab.caucse.chessteample.Piece.Knight;
@@ -310,6 +311,7 @@ public class GameActivity extends AppCompatActivity{
                                     }
                                     String msg = "";
                                     msg = msg + mycolor + ":" + Integer.toString(findx)+":" + Integer.toString(findy)+":" + Integer.toString(finalI)+":" + Integer.toString(finalJ);
+                                    
                                     checkcheck();
                                 }
 
