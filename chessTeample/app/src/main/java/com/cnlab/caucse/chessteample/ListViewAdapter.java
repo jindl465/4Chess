@@ -19,7 +19,7 @@ public class ListViewAdapter extends BaseAdapter {
 
     }
 
-    public ListViewAdapter(String id, String message) {
+    public void additem(String id, String message){
         ChattingListView item = new ChattingListView();
 
         item.setid(id);

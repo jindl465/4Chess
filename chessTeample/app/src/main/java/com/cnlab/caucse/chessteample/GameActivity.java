@@ -48,6 +48,7 @@ public class GameActivity extends AppCompatActivity{
     private ArrayList<Position> cantouch;
     public boolean myturn;
     public static final String[] playerColors = {"BLACK", "WHITE", "RED", "GREEN"};
+    private static final int timeLimit = 20;
     private ListView listView;
     private ListViewAdapter adapter;
 
@@ -83,13 +84,16 @@ public class GameActivity extends AppCompatActivity{
             myturn = true;
         }
 
-
+        // init led
+        ledWrite(0);
 
         adapter = new ListViewAdapter();
 
         listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
+
+        adapter.additem("hi","hi");
 
         BroadcastReceiver GroupMessageReceived = new BroadcastReceiver() {
             @Override
@@ -102,7 +106,7 @@ public class GameActivity extends AppCompatActivity{
                         @Override
                         public void run() {
                             Log.d("timer", "new timer");
-                            for (int i = 20; i >= 0; i++) {
+                            for (int i = timeLimit; i >= 0; i--) {
                                 SSegmentWrite(i);
                                 try {
                                     Thread.sleep(1000);
@@ -316,7 +320,7 @@ public class GameActivity extends AppCompatActivity{
             @Override
             public void run() {
                 Log.d("timer", "new timer");
-                for (int i = 20; i >= 0; i--) {
+                for (int i = timeLimit; i >= 0; i--) {
                     SSegmentWrite(i);
                     try {
                         Thread.sleep(1000);
@@ -704,6 +708,22 @@ public class GameActivity extends AppCompatActivity{
                                         if (mycolor.equals("BLACK")) {
                                             GroupManagerServer.broadcastToGroup(msg);
                                             timer.interrupt();
+                                            timer = new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Log.d("timer", "new timer");
+                                                    for (int i = timeLimit; i >= 0; i--) {
+                                                        SSegmentWrite(i);
+                                                        try {
+                                                            Thread.sleep(1000);
+                                                        } catch (InterruptedException e) {
+                                                            break;
+                                                        }
+                                                    }
+                                                }
+                                            });
+                                            timer.start();
+                                           // LocalBroadcastManager.getInstance(this)
                                             GroupManagerServer.broadcastToGroup("BLACKEND");
                                             new Thread(new Runnable() {
                                                 @Override
@@ -723,6 +743,21 @@ public class GameActivity extends AppCompatActivity{
                                             GroupManagerClient.broadcastToGroup(msg);
                                             if(mycolor.equals("RED")){
                                                 timer.interrupt();
+                                                timer = new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Log.d("timer", "new timer");
+                                                        for (int i = timeLimit; i >= 0; i--) {
+                                                            SSegmentWrite(i);
+                                                            try {
+                                                                Thread.sleep(1000);
+                                                            } catch (InterruptedException e) {
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                                timer.start();
                                                 GroupManagerClient.broadcastToGroup("REDEND");
                                                 new Thread(new Runnable() {
                                                     @Override
@@ -741,6 +776,21 @@ public class GameActivity extends AppCompatActivity{
                                             }
                                             if(mycolor.equals("GREEN")){
                                                 timer.interrupt();
+                                                timer = new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Log.d("timer", "new timer");
+                                                        for (int i = timeLimit; i >= 0; i--) {
+                                                            SSegmentWrite(i);
+                                                            try {
+                                                                Thread.sleep(1000);
+                                                            } catch (InterruptedException e) {
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                                timer.start();
                                                 GroupManagerClient.broadcastToGroup("GREENEND");
                                                 new Thread(new Runnable() {
                                                     @Override
@@ -759,6 +809,21 @@ public class GameActivity extends AppCompatActivity{
                                             }
                                             if(mycolor.equals("WHITE")){
                                                 timer.interrupt();
+                                                timer = new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        Log.d("timer", "new timer");
+                                                        for (int i = timeLimit; i >= 0; i--) {
+                                                            SSegmentWrite(i);
+                                                            try {
+                                                                Thread.sleep(1000);
+                                                            } catch (InterruptedException e) {
+                                                                break;
+                                                            }
+                                                        }
+                                                    }
+                                                });
+                                                timer.start();
                                                 GroupManagerClient.broadcastToGroup("WHITEEND");
                                                 new Thread(new Runnable() {
                                                     @Override
