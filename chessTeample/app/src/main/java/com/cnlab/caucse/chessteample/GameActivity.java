@@ -607,6 +607,55 @@ public class GameActivity extends AppCompatActivity{
                                             }
                                         }
 
+                                        if(eatenPiece.equals("KING")){
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    DotmatrixWrite(0);
+                                                }
+                                            }).start();
+                                        }
+                                        else if(eatenPiece.equals("QUEEN")){
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    DotmatrixWrite(1);
+                                                }
+                                            }).start();
+                                        }
+                                        else if(eatenPiece.equals("BISHOP")){
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    DotmatrixWrite(2);
+                                                }
+                                            }).start();
+                                        }
+                                        else if(eatenPiece.equals("ROOK")){
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    DotmatrixWrite(4);
+                                                }
+                                            }).start();
+                                        }
+                                        else if(eatenPiece.equals("PAWN")){
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    DotmatrixWrite(5);
+                                                }
+                                            }).start();
+                                        }
+                                        else if(eatenPiece.equals("KNIGHT")){
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    DotmatrixWrite(3);
+                                                }
+                                            }).start();
+                                        }
+
                                         btnEx[finalI][finalJ].setColor(btnEx[findx][findy].getColor());
                                         btnEx[finalI][finalJ].setOnPiece(true);
                                         Log.d("why1", btnEx[finalI][finalJ].getColor());
@@ -801,8 +850,8 @@ public class GameActivity extends AppCompatActivity{
                                                 new Thread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        ledOff(1);
-                                                        ledOn(0);
+                                                        ledOff(0);
+                                                        ledOn(3);
                                                     }
                                                 }).start();
                                                 myturn = false;
@@ -834,8 +883,8 @@ public class GameActivity extends AppCompatActivity{
                                                 new Thread(new Runnable() {
                                                     @Override
                                                     public void run() {
-                                                        ledOff(0);
-                                                        ledOn(3);
+                                                        ledOff(1);
+                                                        ledOn(0);
                                                     }
                                                 }).start();
                                                 myturn = false;
