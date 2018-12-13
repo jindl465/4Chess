@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -32,15 +34,13 @@ public class GameActivity extends AppCompatActivity{
     public native int ledOff(int num);
     public native int ledOn(int num);
 
+    public Thread timer;
     private ImageButton btn[][] = new ImageButton[14][14];
     private Tile btnEx[][] = new Tile[14][14];
     public static Context context;
     private String mycolor;
     private String teamcolor;
-    private String p1_color;
-    private String p2_color;
-    private String p3_color;
-    private String p4_color;
+    private String eatenPiece;
     private TextView checkid;
     private boolean flag;
     private ArrayList<Position> cantouch;
@@ -70,10 +70,6 @@ public class GameActivity extends AppCompatActivity{
             teamcolor = "RED";
         }
         flag = false;
-        p1_color = "BLACK";
-        p2_color = "WHITE";
-        p3_color = "RED";
-        p4_color = "GREEN";
         // Example of a call to a native method
  //       TextView tv = (TextView) findViewById(R.id.sample_text);
 //        tv.setText(stringFromJNI());
@@ -92,7 +88,158 @@ public class GameActivity extends AppCompatActivity{
             @Override
             public void onReceive(Context context, Intent intent) {
                 String msg = intent.getStringExtra("message");
-                if(msg.equals("STALEMATE")){
+                if(msg.equals("BLACKEND") || msg.equals("REDEND") || msg.equals("GREENEND") || msg.equals("WHITEEND")){
+                    timer.interrupt();
+                    timer = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            SSegmentWrite(20);
+                        }
+                    });
+                    timer.start();
+                    if(msg.equals("BLACKEND")){
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                LcdWrite("RED", "WHITE");
+                            }
+                        }).start();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ledOff(3);
+                                ledOn(2);
+                            }
+                        }).start();
+                    }
+                    if(msg.equals("REDEND")){
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                LcdWrite("WHITE", "GREEN");
+                            }
+                        }).start();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ledOff(2);
+                                ledOn(1);
+                            }
+                        }).start();
+                    }
+                    if(msg.equals("WHITEEND")){
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                LcdWrite("GREEN", "BLACK");
+                            }
+                        }).start();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ledOff(1);
+                                ledOn(0);
+                            }
+                        }).start();
+                    }
+                    if(msg.equals("GREENEND")){
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                LcdWrite("BLACK", "RED");
+                            }
+                        }).start();
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ledOff(0);
+                                ledOn(3);
+                            }
+                        }).start();
+                    }
+                }
+
+                if(msg.equals("BLACKKINGDIE")) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ledOff(7);
+                        }
+                    }).start();
+                }
+                else if(msg.equals("REDKINGDIE")) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ledOff(6);
+                        }
+                    }).start();
+                }
+                else if(msg.equals("WHITEKINGDIE")) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ledOff(5);
+                        }
+                    }).start();
+                }
+                else if(msg.equals("GREENKINGDIE")) {
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ledOff(4);
+                        }
+                    }).start();
+                }
+                else if(msg.equals("KING")){
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            DotmatrixWrite(0);
+                        }
+                    }).start();
+                }
+                else if(msg.equals("QUEEN")){
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            DotmatrixWrite(1);
+                        }
+                    }).start();
+                }
+                else if(msg.equals("BISHOP")){
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            DotmatrixWrite(2);
+                        }
+                    }).start();
+                }
+                else if(msg.equals("ROOK")){
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            DotmatrixWrite(4);
+                        }
+                    }).start();
+                }
+                else if(msg.equals("PAWN")){
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            DotmatrixWrite(5);
+                        }
+                    }).start();
+                }
+                else if(msg.equals("KNIGHT")){
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            DotmatrixWrite(3);
+                        }
+                    }).start();
+                }
+                else if(msg.equals("STALEMATE")){
                     checkid.setText("STALEMATE");
                 }
                 else if(msg.equals("CHECKMATE")){
@@ -120,7 +267,7 @@ public class GameActivity extends AppCompatActivity{
         LocalBroadcastManager.getInstance(this).registerReceiver(GroupMessageReceived, new IntentFilter("GroupMessageReceived"));
 
         // device control example
-        new Thread(new Runnable() {
+      /*  new Thread(new Runnable() {
             @Override
             public void run() {
                 SSegmentWrite(20);
@@ -147,6 +294,30 @@ public class GameActivity extends AppCompatActivity{
                 ledOn(4);
                 ledOn(5);
                 ledOn(6);
+            }
+        }).start();*/
+        timer = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SSegmentWrite(20);
+            }
+        });
+        timer.start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LcdWrite("BLACK", "RED");
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ledOn(3);
+                ledOn(4);
+                ledOn(5);
+                ledOn(6);
+                ledOn(7);
             }
         }).start();
     }
@@ -361,6 +532,53 @@ public class GameActivity extends AppCompatActivity{
                                             }
                                             if (mflag == 1) break;
                                         }
+                                        if (!(btnEx[finalI][finalJ].getPiecetype().equals("NONE"))) {
+                                            eatenPiece = btnEx[finalI][finalJ].getPiecetype();
+                                            if(eatenPiece.equals("KING") || btnEx[finalI][finalJ].getColor().equals("BLACK")){
+                                                GroupManagerServer.broadcastToGroup("BLACKKINGDIE");
+                                                new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        ledOff(7);
+                                                    }
+                                                }).start();
+
+                                            }
+                                            if(eatenPiece.equals("KING") || btnEx[finalI][finalJ].getColor().equals("RED")){
+                                                GroupManagerServer.broadcastToGroup("REDKINGDIE");
+                                                new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        ledOff(6);
+                                                    }
+                                                }).start();
+                                            }
+                                            if(eatenPiece.equals("KING") || btnEx[finalI][finalJ].getColor().equals("WHITE")){
+                                                GroupManagerServer.broadcastToGroup("WHITEKINGDIE");
+                                                new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        ledOff(5);
+                                                    }
+                                                }).start();
+                                            }
+                                            if(eatenPiece.equals("KING") || btnEx[finalI][finalJ].getColor().equals("GREEN")){
+                                                GroupManagerServer.broadcastToGroup("GREENKINGDIE");
+                                                new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        ledOff(4);
+                                                    }
+                                                }).start();
+                                            }
+                                            if(mycolor.equals("BLACK")){
+                                                GroupManagerServer.broadcastToGroup(eatenPiece);
+                                            }
+                                            else{
+                                                GroupManagerClient.broadcastToGroup(eatenPiece);
+                                            }
+                                        }
+
                                         btnEx[finalI][finalJ].setColor(btnEx[findx][findy].getColor());
                                         btnEx[finalI][finalJ].setOnPiece(true);
                                         Log.d("why1", btnEx[finalI][finalJ].getColor());
@@ -461,20 +679,76 @@ public class GameActivity extends AppCompatActivity{
 
                                         if (mycolor.equals("BLACK")) {
                                             GroupManagerServer.broadcastToGroup(msg);
+                                            timer.interrupt();
                                             GroupManagerServer.broadcastToGroup("BLACKEND");
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    LcdWrite("RED", "WHITE");
+                                                }
+                                            }).start();
+                                            new Thread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    ledOff(3);
+                                                    ledOn(2);
+                                                }
+                                            }).start();
                                             myturn = false;
                                         } else {
                                             GroupManagerClient.broadcastToGroup(msg);
                                             if(mycolor.equals("RED")){
+                                                timer.interrupt();
                                                 GroupManagerClient.broadcastToGroup("REDEND");
+                                                new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        LcdWrite("WHITE", "GREEN");
+                                                    }
+                                                }).start();
+                                                new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        ledOff(2);
+                                                        ledOn(1);
+                                                    }
+                                                }).start();
                                                 myturn = false;
                                             }
                                             if(mycolor.equals("GREEN")){
+                                                timer.interrupt();
                                                 GroupManagerClient.broadcastToGroup("GREENEND");
+                                                new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        LcdWrite("BLACK", "RED");
+                                                    }
+                                                }).start();
+                                                new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        ledOff(1);
+                                                        ledOn(0);
+                                                    }
+                                                }).start();
                                                 myturn = false;
                                             }
                                             if(mycolor.equals("WHITE")){
+                                                timer.interrupt();
                                                 GroupManagerClient.broadcastToGroup("WHITEEND");
+                                                new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        LcdWrite("GREEN", "BLACK");
+                                                    }
+                                                }).start();
+                                                new Thread(new Runnable() {
+                                                    @Override
+                                                    public void run() {
+                                                        ledOff(0);
+                                                        ledOn(3);
+                                                    }
+                                                }).start();
                                                 myturn = false;
                                             }
                                         }
@@ -1305,3 +1579,4 @@ public class GameActivity extends AppCompatActivity{
 }
 
 }
+
