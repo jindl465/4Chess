@@ -92,9 +92,6 @@ public class GameActivity extends AppCompatActivity{
         listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
-
-        adapter.additem("hi","hi");
-
         BroadcastReceiver GroupMessageReceived = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -115,7 +112,9 @@ public class GameActivity extends AppCompatActivity{
 
                 if (msg.startsWith("CHAT:")) {
                     String[] chat = msg.split(":", 3);
+                    Log.d("GameChat", "from: " + chat[1] + " message: " + chat[2]);
                     adapter.additem(chat[1], chat[2]);
+                    adapter.notifyDataSetChanged();
                 }
                 else if(msg.equals("BLACKEND") || msg.equals("REDEND") || msg.equals("GREENEND") || msg.equals("WHITEEND")){
                     Log.d("Game", msg);
