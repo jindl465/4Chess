@@ -380,20 +380,25 @@ public class GameActivity extends AppCompatActivity{
             @Override
             public void run() {
                 Log.d("timer", "new timer");
+                boolean interrupted = false;
                 for (int i = timeLimit; i >= 0; i--) {
                     SSegmentWrite(i);
                     if (i > 0) {
                         try {
                             Thread.sleep(1000);
                         } catch (InterruptedException e) {
+                            interrupted = true;
                             break;
                         }
                     }
-                    Intent intent = new Intent("GroupMessageReceived");
-                    intent.putExtra("message", "REDEND");
-                    LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
                 }
-
+                if(interrupted == false && mycolor.equals("RED")) {
+                    GroupManagerServer.broadcastToGroup(mycolor + "END");
+                    Intent intent = new Intent("GroupMessageReceived");
+                    intent.putExtra("message", mycolor + "END");
+                    LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
+                    myturn = false;
+                }
             }
         });
         timer.start();
