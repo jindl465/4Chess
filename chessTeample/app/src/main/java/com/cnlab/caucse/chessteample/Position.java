@@ -1,8 +1,5 @@
 package com.cnlab.caucse.chessteample;
 
-import android.graphics.Color;
-import android.widget.ImageButton;
-
 import java.util.ArrayList;
 
 public class Position {
@@ -144,7 +141,7 @@ public class Position {
         int nowPosX = nowPos.getX();
         int nowPosY = nowPos.getY();
 
-        Tile btn[][] = ((GameActivity)GameActivity.context).getBtnEx();
+        Tile btn[][] = ((GameActivity)GameActivity.gameContext).getBtnEx();
 
         if (nowPos.isValid()) {
             Tile tile = btn[nowPosX][nowPosY];
