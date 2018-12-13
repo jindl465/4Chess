@@ -4,8 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,7 +37,7 @@ public class GameActivity extends AppCompatActivity{
     public Thread timer;
     private ImageButton btn[][] = new ImageButton[14][14];
     private Tile btnEx[][] = new Tile[14][14];
-    public static Context context;
+    public static Context gameContext;
     private String mycolor;
     private String teamcolor;
     private String eatenPiece;
@@ -78,7 +76,7 @@ public class GameActivity extends AppCompatActivity{
         setStartTile();
         setbcl();
 
-        context = this;
+        gameContext = this;
         myturn = false;
         if(mycolor.equals("BLACK")){
             myturn = true;
@@ -101,24 +99,29 @@ public class GameActivity extends AppCompatActivity{
                 String msg = intent.getStringExtra("message");
                 if(msg.equals("BLACKEND") || msg.equals("REDEND") || msg.equals("GREENEND") || msg.equals("WHITEEND")){
                     Log.d("Game", msg);
-                    timer.interrupt();
-                    timer = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Log.d("timer", "new timer");
-                            for (int i = timeLimit; i >= 0; i--) {
-                                SSegmentWrite(i);
-                                try {
-                                    Thread.sleep(1000);
-                                } catch (InterruptedException e) {
-                                    break;
-                                }
-                            }
-
-                        }
-                    });
-                    timer.start();
                     if(msg.equals("BLACKEND")){
+                        timer.interrupt();
+                        timer = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.d("timer", "new timer");
+                                for (int i = timeLimit; i >= 0; i--) {
+                                    SSegmentWrite(i);
+                                    if (i > 0) {
+                                        try {
+                                            Thread.sleep(1000);
+                                        } catch (InterruptedException e) {
+                                            break;
+                                        }
+                                    }
+                                    Intent intent = new Intent("GroupMessageReceived");
+                                    intent.putExtra("message", "REDEND");
+                                    LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
+                                }
+
+                            }
+                        });
+                        timer.start();
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -134,6 +137,27 @@ public class GameActivity extends AppCompatActivity{
                         }).start();
                     }
                     if(msg.equals("REDEND")){
+                        timer = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.d("timer", "new timer");
+                                for (int i = timeLimit; i >= 0; i--) {
+                                    SSegmentWrite(i);
+                                    if (i > 0) {
+                                        try {
+                                            Thread.sleep(1000);
+                                        } catch (InterruptedException e) {
+                                            break;
+                                        }
+                                    }
+                                    Intent intent = new Intent("GroupMessageReceived");
+                                    intent.putExtra("message", "WHITEEND");
+                                    LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
+                                }
+
+                            }
+                        });
+                        timer.start();
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -149,6 +173,27 @@ public class GameActivity extends AppCompatActivity{
                         }).start();
                     }
                     if(msg.equals("WHITEEND")){
+                        timer = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.d("timer", "new timer");
+                                for (int i = timeLimit; i >= 0; i--) {
+                                    SSegmentWrite(i);
+                                    if (i > 0) {
+                                        try {
+                                            Thread.sleep(1000);
+                                        } catch (InterruptedException e) {
+                                            break;
+                                        }
+                                    }
+                                    Intent intent = new Intent("GroupMessageReceived");
+                                    intent.putExtra("message", "GREENEND");
+                                    LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
+                                }
+
+                            }
+                        });
+                        timer.start();
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -164,6 +209,27 @@ public class GameActivity extends AppCompatActivity{
                         }).start();
                     }
                     if(msg.equals("GREENEND")){
+                        timer = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Log.d("timer", "new timer");
+                                for (int i = timeLimit; i >= 0; i--) {
+                                    SSegmentWrite(i);
+                                    if (i > 0) {
+                                        try {
+                                            Thread.sleep(1000);
+                                        } catch (InterruptedException e) {
+                                            break;
+                                        }
+                                    }
+                                    Intent intent = new Intent("GroupMessageReceived");
+                                    intent.putExtra("message", "BLACKEND");
+                                    LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
+                                }
+
+                            }
+                        });
+                        timer.start();
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -178,9 +244,7 @@ public class GameActivity extends AppCompatActivity{
                             }
                         }).start();
                     }
-                }
-
-                if(msg.equals("BLACKKINGDIE")) {
+                } else if(msg.equals("BLACKKINGDIE")) {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
@@ -287,47 +351,22 @@ public class GameActivity extends AppCompatActivity{
         };
         LocalBroadcastManager.getInstance(this).registerReceiver(GroupMessageReceived, new IntentFilter("GroupMessageReceived"));
 
-        // device control example
-      /*  new Thread(new Runnable() {
-            @Override
-            public void run() {
-                SSegmentWrite(20);
-            }
-        }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                LcdWrite("hi", "hello");
-            }
-        }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                DotmatrixWrite(1);
-            }
-        }).start();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                ledOn(0);
-                ledOn(1);
-                ledOn(2);
-                ledOn(4);
-                ledOn(5);
-                ledOn(6);
-            }
-        }).start();*/
         timer = new Thread(new Runnable() {
             @Override
             public void run() {
                 Log.d("timer", "new timer");
                 for (int i = timeLimit; i >= 0; i--) {
                     SSegmentWrite(i);
-                    try {
-                        Thread.sleep(1000);
-                    } catch (InterruptedException e) {
-                        break;
+                    if (i > 0) {
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            break;
+                        }
                     }
+                    Intent intent = new Intent("GroupMessageReceived");
+                    intent.putExtra("message", "REDEND");
+                    LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
                 }
 
             }
@@ -402,7 +441,9 @@ public class GameActivity extends AppCompatActivity{
                                                 }
                                                 btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
 
-                                                checkid.setText("Checkmate");
+                                                Intent intent = new Intent("GroupMessageReceived");
+                                                intent.putExtra("message", "CHECKMATE");
+                                                LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
                                                 if(mycolor.equals("BLACK")){
                                                     GroupManagerServer.broadcastToGroup("CHECKMATE");
                                                     }
@@ -428,7 +469,9 @@ public class GameActivity extends AppCompatActivity{
                                                 }
                                                 btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
 
-                                                checkid.setText("Checkmate");
+                                                Intent intent = new Intent("GroupMessageReceived");
+                                                intent.putExtra("message", "CHECKMATE");
+                                                LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
                                                 if(mycolor.equals("BLACK")){
                                                     GroupManagerServer.broadcastToGroup("CHECKMATE");
                                                 }
@@ -457,7 +500,9 @@ public class GameActivity extends AppCompatActivity{
                                                 }
                                                 btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
 
-                                                checkid.setText("Checkmate");
+                                                Intent intent = new Intent("GroupMessageReceived");
+                                                intent.putExtra("message", "CHECKMATE");
+                                                LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
                                                 if(mycolor.equals("BLACK")){
                                                     GroupManagerServer.broadcastToGroup("CHECKMATE");
                                                 }
@@ -497,7 +542,10 @@ public class GameActivity extends AppCompatActivity{
                             btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
 
                         }
-                        checkid.setText("STALEMATE");
+
+                        Intent intent = new Intent("GroupMessageReceived");
+                        intent.putExtra("message", "STALEMATE");
+                        LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
                         if(mycolor.equals("BLACK")){
                             GroupManagerServer.broadcastToGroup("STALEMATE");
                         }
@@ -757,146 +805,12 @@ public class GameActivity extends AppCompatActivity{
                                         String msg = "";
                                         msg = msg + mycolor + ":" + Integer.toString(findx) + ":" + Integer.toString(findy) + ":" + Integer.toString(finalI) + ":" + Integer.toString(finalJ);
 
-                                        if (mycolor.equals("BLACK")) {
-                                            GroupManagerServer.broadcastToGroup(msg);
-                                            timer.interrupt();
-                                            timer = new Thread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    Log.d("timer", "new timer");
-                                                    for (int i = timeLimit; i >= 0; i--) {
-                                                        SSegmentWrite(i);
-                                                        try {
-                                                            Thread.sleep(1000);
-                                                        } catch (InterruptedException e) {
-                                                            break;
-                                                        }
-                                                    }
-
-                                                }
-                                            });
-                                            timer.start();
-                                           // LocalBroadcastManager.getInstance(this)
-                                            GroupManagerServer.broadcastToGroup("BLACKEND");
-                                            new Thread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    LcdWrite("RED", "WHITE");
-                                                }
-                                            }).start();
-                                            new Thread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    ledOff(3);
-                                                    ledOn(2);
-                                                }
-                                            }).start();
-                                            myturn = false;
-                                        } else {
-                                            GroupManagerClient.broadcastToGroup(msg);
-                                            if(mycolor.equals("RED")){
-                                                timer.interrupt();
-                                                timer = new Thread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        Log.d("timer", "new timer");
-                                                        for (int i = timeLimit; i >= 0; i--) {
-                                                            SSegmentWrite(i);
-                                                            try {
-                                                                Thread.sleep(1000);
-                                                            } catch (InterruptedException e) {
-                                                                break;
-                                                            }
-                                                        }
-
-                                                    }
-                                                });
-                                                timer.start();
-                                                GroupManagerClient.broadcastToGroup("REDEND");
-                                                new Thread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        LcdWrite("WHITE", "GREEN");
-                                                    }
-                                                }).start();
-                                                new Thread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        ledOff(2);
-                                                        ledOn(1);
-                                                    }
-                                                }).start();
-                                                myturn = false;
-                                            }
-                                            if(mycolor.equals("GREEN")){
-                                                timer.interrupt();
-                                                timer = new Thread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        Log.d("timer", "new timer");
-                                                        for (int i = timeLimit; i >= 0; i--) {
-                                                            SSegmentWrite(i);
-                                                            try {
-                                                                Thread.sleep(1000);
-                                                            } catch (InterruptedException e) {
-                                                                break;
-                                                            }
-                                                        }
-
-                                                    }
-                                                });
-                                                timer.start();
-                                                GroupManagerClient.broadcastToGroup("GREENEND");
-                                                new Thread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        LcdWrite("BLACK", "RED");
-                                                    }
-                                                }).start();
-                                                new Thread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        ledOff(0);
-                                                        ledOn(3);
-                                                    }
-                                                }).start();
-                                                myturn = false;
-                                            }
-                                            if(mycolor.equals("WHITE")){
-                                                timer.interrupt();
-                                                timer = new Thread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        Log.d("timer", "new timer");
-                                                        for (int i = timeLimit; i >= 0; i--) {
-                                                            SSegmentWrite(i);
-                                                            try {
-                                                                Thread.sleep(1000);
-                                                            } catch (InterruptedException e) {
-                                                                break;
-                                                            }
-                                                        }
-
-                                                    }
-                                                });
-                                                timer.start();
-                                                GroupManagerClient.broadcastToGroup("WHITEEND");
-                                                new Thread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        LcdWrite("GREEN", "BLACK");
-                                                    }
-                                                }).start();
-                                                new Thread(new Runnable() {
-                                                    @Override
-                                                    public void run() {
-                                                        ledOff(1);
-                                                        ledOn(0);
-                                                    }
-                                                }).start();
-                                                myturn = false;
-                                            }
-                                        }
+                                        GroupManagerServer.broadcastToGroup(msg);
+                                        GroupManagerServer.broadcastToGroup(mycolor + "END");
+                                        Intent intent = new Intent("GroupMessageReceived");
+                                        intent.putExtra("message", mycolor + "END");
+                                        LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
+                                        myturn = false;
 
                                         checkcheck();
                                         checkcheckmate();
