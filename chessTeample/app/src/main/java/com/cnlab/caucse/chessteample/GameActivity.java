@@ -81,7 +81,10 @@ public class GameActivity extends AppCompatActivity{
             @Override
             public void onReceive(Context context, Intent intent) {
                 String msg = intent.getStringExtra("message");
-                if(msg.equals("BLACKEND") && mycolor.equals("RED")){
+                if(msg.equals("CHECKMATE")){
+                    checkid.setText("CHECKMATE");
+                }
+                else if(msg.equals("BLACKEND") && mycolor.equals("RED")){
                     myturn = true;
                 }
                 else if(msg.equals("REDEND") && mycolor.equals("WHITE")){
@@ -95,6 +98,8 @@ public class GameActivity extends AppCompatActivity{
                 }
                 else if(msg.length()>9){
                     Movelistener(msg);
+                    checkcheck();
+                    checkcheckmate();
                 }
 
             }
@@ -127,28 +132,94 @@ public class GameActivity extends AppCompatActivity{
         return false;
     }
 
-    public boolean checkcheckmate(String mycolor){
+    public boolean checkcheckmate(){
         for(int i = 0; i <=13; i ++){
             for(int j = 0; j <=13; j++){
-                if(btnEx[i][j].isOnPiece()==true){
+                if(btnEx[i][j].isOnPiece()==true && myturn == true){
                     for(int z = 0; z<btnEx[i][j].getPiece().getCanMoves(btnEx).size(); z++){
                         if(btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].getPiecetype().equals("KING")){
                           //  if(btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].getPiece().getCanMoves(btnEx).size()==0){
                                 for(int a = 0 ; a < 14; a++) {
                                     for (int b = 0; b < 14; b++) {
-                                        if(btnEx[a][b].getColor().equals(mycolor)){
+
+                                        if(btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].getColor().equals(mycolor)){
                                             for(int c =0 ; c<btnEx[a][b].getPiece().getCanMoves(btnEx).size();c++){
                                                 String temp = btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].getColor();
                                                 btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(mycolor);
-                                                if(btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].getPiecetype().equals("KING")){
+                                       /*         if(btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].getPiecetype().equals("KING")){
                                                     btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
                                                     return true;
-                                                }
-                                                else if(checkcheck() ==false){
+                                                }*/
+                                                if(checkcheck() ==false){
                                                     btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
+                                                    checkid.setText(" ");
                                                     return false;
                                                 }
                                                 btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
+
+                                                checkid.setText("Checkmate");
+                                                if(mycolor.equals("BLACK")){
+                                                    GroupManagerServer.broadcastToGroup("CHECKMATE");
+                                                    }
+                                                    else{
+                                                    GroupManagerClient.broadcastToGroup("CHECKMATE");
+                                                }
+                                                return true;
+                                            }
+                                        }
+
+                                        else if(btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].getColor().equals(teamcolor)){
+                                            for(int c =0 ; c<btnEx[a][b].getPiece().getCanMoves(btnEx).size();c++){
+                                                String temp = btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].getColor();
+                                                btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(mycolor);
+                                       /*         if(btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].getPiecetype().equals("KING")){
+                                                    btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
+                                                    return true;
+                                                }*/
+                                                if(checkcheck() ==false){
+                                                    btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
+                                                    checkid.setText(" ");
+                                                    return false;
+                                                }
+                                                btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
+
+                                                checkid.setText("Checkmate");
+                                                if(mycolor.equals("BLACK")){
+                                                    GroupManagerServer.broadcastToGroup("CHECKMATE");
+                                                }
+                                                else{
+                                                    GroupManagerClient.broadcastToGroup("CHECKMATE");
+                                                }
+                                                return true;
+                                            }
+                                        }
+                                        else if(!btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].getColor().equals("NONE")){
+                                            for(int c =0 ; c<btnEx[a][b].getPiece().getCanMoves(btnEx).size();c++){
+                                                if(btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].getPiecetype().equals("KING")){
+                                                    return true;
+                                                }
+
+                                                String temp = btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].getColor();
+                                                btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(mycolor);
+                                       /*         if(btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].getPiecetype().equals("KING")){
+                                                    btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
+                                                    return true;
+                                                }*/
+                                                if(checkcheck() == true){
+                                                    btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
+                                                    checkid.setText(" ");
+                                                    return false;
+                                                }
+                                                btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
+
+                                                checkid.setText("Checkmate");
+                                                if(mycolor.equals("BLACK")){
+                                                    GroupManagerServer.broadcastToGroup("CHECKMATE");
+                                                }
+                                                else{
+                                                    GroupManagerClient.broadcastToGroup("CHECKMATE");
+                                                }
+                                                return true;
                                             }
                                         }
                                     }
@@ -157,7 +228,7 @@ public class GameActivity extends AppCompatActivity{
                             //String color = btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].getColor();
                             //color = color + " Check";
                             //checkid.setText(color);
-                            return true;
+                         //   return true;
                         }
                     }
                 }
@@ -357,6 +428,7 @@ public class GameActivity extends AppCompatActivity{
                                         }
 
                                         checkcheck();
+                                        checkcheckmate();
                                     }
 
                                 }
@@ -386,7 +458,7 @@ public class GameActivity extends AppCompatActivity{
 
     }
 
-    public void Movelistener(String msg){
+    public void Movelistener(String msg) {
         StringTokenizer token = new StringTokenizer(msg, ":");
         String listencolor = "NONE";
         String ox;
@@ -408,108 +480,108 @@ public class GameActivity extends AppCompatActivity{
         twox = Integer.parseInt(tx);
         twoy = Integer.parseInt(ty);
 
-
-        if(mycolor.equals("WHITE")){
-            if(listencolor.equals("GREEN")){
+        if (!listencolor.equals(mycolor)){
+            if (mycolor.equals("WHITE")) {
+                if (listencolor.equals("GREEN")) {
+                    int temp = onex;
+                    onex = oney;
+                    oney = 13 - temp;
+                    int temp2 = twox;
+                    twox = twoy;
+                    twoy = 13 - temp2;
+                }
+                if (listencolor.equals("RED")) {
+                    int temp = onex;
+                    onex = 13 - oney;
+                    oney = temp;
+                    int temp2 = twox;
+                    twox = 13 - twoy;
+                    twoy = temp2;
+                }
+                if (listencolor.equals("BLACK")) {
+                    onex = 13 - onex;
+                    oney = 13 - oney;
+                    twox = 13 - twox;
+                    twoy = 13 - twoy;
+                }
+            }
+        if (mycolor.equals("BLACK")) {
+            if (listencolor.equals("RED")) {
                 int temp = onex;
                 onex = oney;
-                oney = 13-temp;
+                oney = 13 - temp;
                 int temp2 = twox;
                 twox = twoy;
-                twoy = 13-temp2;
+                twoy = 13 - temp2;
             }
-            if(listencolor.equals("RED")){
+            if (listencolor.equals("GREEN")) {
                 int temp = onex;
-                onex = 13- oney;
+                onex = 13 - oney;
                 oney = temp;
                 int temp2 = twox;
                 twox = 13 - twoy;
                 twoy = temp2;
             }
-            if(listencolor.equals("BLACK")){
-                onex= 13-onex;
-                oney= 13-oney;
-                twox=13-twox;
-                twoy=13-twoy;
+            if (listencolor.equals("WHITE")) {
+                onex = 13 - onex;
+                oney = 13 - oney;
+                twox = 13 - twox;
+                twoy = 13 - twoy;
             }
         }
-        if(mycolor.equals("BLACK")){
-            if(listencolor.equals("RED")){
+        if (mycolor.equals("RED")) {
+            if (listencolor.equals("WHITE")) {
                 int temp = onex;
                 onex = oney;
-                oney = 13-temp;
+                oney = 13 - temp;
                 int temp2 = twox;
                 twox = twoy;
-                twoy = 13-temp2;
+                twoy = 13 - temp2;
             }
-            if(listencolor.equals("GREEN")){
+            if (listencolor.equals("BLACK")) {
                 int temp = onex;
-                onex = 13- oney;
+                onex = 13 - oney;
                 oney = temp;
                 int temp2 = twox;
                 twox = 13 - twoy;
                 twoy = temp2;
             }
-            if(listencolor.equals("WHITE")){
-                onex= 13-onex;
-                oney= 13-oney;
-                twox=13-twox;
-                twoy=13-twoy;
+            if (listencolor.equals("GREEN")) {
+                onex = 13 - onex;
+                oney = 13 - oney;
+                twox = 13 - twox;
+                twoy = 13 - twoy;
             }
         }
-        if(mycolor.equals("RED")){
-            if(listencolor.equals("WHITE")){
+        if (mycolor.equals("GREEN")) {
+            if (listencolor.equals("BLACK")) {
                 int temp = onex;
                 onex = oney;
-                oney = 13-temp;
+                oney = 13 - temp;
                 int temp2 = twox;
                 twox = twoy;
-                twoy = 13-temp2;
+                twoy = 13 - temp2;
             }
-            if(listencolor.equals("BLACK")){
+            if (listencolor.equals("WHITE")) {
                 int temp = onex;
-                onex = 13- oney;
+                onex = 13 - oney;
                 oney = temp;
                 int temp2 = twox;
                 twox = 13 - twoy;
                 twoy = temp2;
             }
-            if(listencolor.equals("GREEN")){
-                onex= 13-onex;
-                oney= 13-oney;
-                twox=13-twox;
-                twoy=13-twoy;
-            }
-        }
-        if(mycolor.equals("GREEN")){
-            if(listencolor.equals("BLACK")){
-                int temp = onex;
-                onex = oney;
-                oney = 13-temp;
-                int temp2 = twox;
-                twox = twoy;
-                twoy = 13-temp2;
-            }
-            if(listencolor.equals("WHITE")){
-                int temp = onex;
-                onex = 13- oney;
-                oney = temp;
-                int temp2 = twox;
-                twox = 13 - twoy;
-                twoy = temp2;
-            }
-            if(listencolor.equals("RED")){
-                onex= 13-onex;
-                oney= 13-oney;
-                twox=13-twox;
-                twoy=13-twoy;
+            if (listencolor.equals("RED")) {
+                onex = 13 - onex;
+                oney = 13 - oney;
+                twox = 13 - twox;
+                twoy = 13 - twoy;
             }
         }
 
         btnEx[twox][twoy].setColor(btnEx[onex][oney].getColor());
         btnEx[twox][twoy].setOnPiece(true);
         btnEx[twox][twoy].setPiecetype(btnEx[onex][oney].getPiecetype());
-        Position pos = new Position(twox,twoy);
+        Position pos = new Position(twox, twoy);
         btnEx[onex][oney].getPiece().setPosition(pos);
         btnEx[twox][twoy].setPiece(btnEx[onex][oney].getPiece());
         btnEx[onex][oney].setPiecetype("NONE");
@@ -519,86 +591,89 @@ public class GameActivity extends AppCompatActivity{
 
         btn[onex][oney].setImageResource(0);
 
-        if(btnEx[twox][twoy].getColor().equals("BLACK")) {
-            if(btnEx[twox][twoy].getPiecetype()=="ROOK")
+        if (btnEx[twox][twoy].getColor().equals("BLACK")) {
+            if (btnEx[twox][twoy].getPiecetype() == "ROOK")
                 btn[twox][twoy].setImageResource(R.mipmap.rook_black);
 
-            if(btnEx[twox][twoy].getPiecetype()=="KNIGHT")
+            if (btnEx[twox][twoy].getPiecetype() == "KNIGHT")
                 btn[twox][twoy].setImageResource(R.mipmap.knight_black);
 
-            if(btnEx[twox][twoy].getPiecetype()=="BISHOP")
+            if (btnEx[twox][twoy].getPiecetype() == "BISHOP")
                 btn[twox][twoy].setImageResource(R.mipmap.bishop_black);
 
-            if(btnEx[twox][twoy].getPiecetype()=="KING")
+            if (btnEx[twox][twoy].getPiecetype() == "KING")
                 btn[twox][twoy].setImageResource(R.mipmap.king_black);
 
-            if(btnEx[twox][twoy].getPiecetype()=="QUEEN")
+            if (btnEx[twox][twoy].getPiecetype() == "QUEEN")
                 btn[twox][twoy].setImageResource(R.mipmap.queen_black);
 
-            if(btnEx[twox][twoy].getPiecetype()=="PAWN")
+            if (btnEx[twox][twoy].getPiecetype() == "PAWN")
                 btn[twox][twoy].setImageResource(R.mipmap.pawn_black);
         }
 
-        if(btnEx[twox][twoy].getColor().equals("WHITE")) {
-            if(btnEx[twox][twoy].getPiecetype()=="ROOK")
+        if (btnEx[twox][twoy].getColor().equals("WHITE")) {
+            if (btnEx[twox][twoy].getPiecetype() == "ROOK")
                 btn[twox][twoy].setImageResource(R.mipmap.rook_white);
 
-            if(btnEx[twox][twoy].getPiecetype()=="KNIGHT")
+            if (btnEx[twox][twoy].getPiecetype() == "KNIGHT")
                 btn[twox][twoy].setImageResource(R.mipmap.knight_white);
 
-            if(btnEx[twox][twoy].getPiecetype()=="BISHOP")
+            if (btnEx[twox][twoy].getPiecetype() == "BISHOP")
                 btn[twox][twoy].setImageResource(R.mipmap.bishop_white);
 
-            if(btnEx[twox][twoy].getPiecetype()=="KING")
+            if (btnEx[twox][twoy].getPiecetype() == "KING")
                 btn[twox][twoy].setImageResource(R.mipmap.king_white);
 
-            if(btnEx[twox][twoy].getPiecetype()=="QUEEN")
+            if (btnEx[twox][twoy].getPiecetype() == "QUEEN")
                 btn[twox][twoy].setImageResource(R.mipmap.queen_white);
 
-            if(btnEx[twox][twoy].getPiecetype()=="PAWN")
+            if (btnEx[twox][twoy].getPiecetype() == "PAWN")
                 btn[twox][twoy].setImageResource(R.mipmap.pawn_white);
         }
 
-        if(btnEx[twox][twoy].getColor().equals("RED")) {
-            if(btnEx[twox][twoy].getPiecetype()=="ROOK")
+        if (btnEx[twox][twoy].getColor().equals("RED")) {
+            if (btnEx[twox][twoy].getPiecetype() == "ROOK")
                 btn[twox][twoy].setImageResource(R.mipmap.rook_red);
 
-            if(btnEx[twox][twoy].getPiecetype()=="KNIGHT")
+            if (btnEx[twox][twoy].getPiecetype() == "KNIGHT")
                 btn[twox][twoy].setImageResource(R.mipmap.knight_red);
 
-            if(btnEx[twox][twoy].getPiecetype()=="BISHOP")
+            if (btnEx[twox][twoy].getPiecetype() == "BISHOP")
                 btn[twox][twoy].setImageResource(R.mipmap.bishop_red);
 
-            if(btnEx[twox][twoy].getPiecetype()=="KING")
+            if (btnEx[twox][twoy].getPiecetype() == "KING")
                 btn[twox][twoy].setImageResource(R.mipmap.king_red);
 
-            if(btnEx[twox][twoy].getPiecetype()=="QUEEN")
+            if (btnEx[twox][twoy].getPiecetype() == "QUEEN")
                 btn[twox][twoy].setImageResource(R.mipmap.queen_red);
 
-            if(btnEx[twox][twoy].getPiecetype()=="PAWN")
+            if (btnEx[twox][twoy].getPiecetype() == "PAWN")
                 btn[twox][twoy].setImageResource(R.mipmap.pawn_red);
         }
 
-        if(btnEx[twox][twoy].getColor().equals("GREEN")) {
-            if(btnEx[twox][twoy].getPiecetype()=="ROOK")
+        if (btnEx[twox][twoy].getColor().equals("GREEN")) {
+            if (btnEx[twox][twoy].getPiecetype() == "ROOK")
                 btn[twox][twoy].setImageResource(R.mipmap.rook_green);
 
-            if(btnEx[twox][twoy].getPiecetype()=="KNIGHT")
+            if (btnEx[twox][twoy].getPiecetype() == "KNIGHT")
                 btn[twox][twoy].setImageResource(R.mipmap.knight_green);
 
-            if(btnEx[twox][twoy].getPiecetype()=="BISHOP")
+            if (btnEx[twox][twoy].getPiecetype() == "BISHOP")
                 btn[twox][twoy].setImageResource(R.mipmap.bishop_green);
 
-            if(btnEx[twox][twoy].getPiecetype()=="KING")
+            if (btnEx[twox][twoy].getPiecetype() == "KING")
                 btn[twox][twoy].setImageResource(R.mipmap.king_green);
 
-            if(btnEx[twox][twoy].getPiecetype()=="QUEEN")
+            if (btnEx[twox][twoy].getPiecetype() == "QUEEN")
                 btn[twox][twoy].setImageResource(R.mipmap.queen_green);
 
-            if(btnEx[twox][twoy].getPiecetype()=="PAWN")
+            if (btnEx[twox][twoy].getPiecetype() == "PAWN")
                 btn[twox][twoy].setImageResource(R.mipmap.pawn_green);
 
         }
+        checkcheck();
+        checkcheckmate();
+    }
     }
 
 
