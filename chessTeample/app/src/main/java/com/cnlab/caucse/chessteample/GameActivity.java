@@ -97,6 +97,20 @@ public class GameActivity extends AppCompatActivity{
             @Override
             public void onReceive(Context context, Intent intent) {
                 String msg = intent.getStringExtra("message");
+
+                if(msg.equals("BLACKEND") && mycolor.equals("RED")){
+                    myturn = true;
+                }
+                else if(msg.equals("REDEND") && mycolor.equals("WHITE")){
+                    myturn = true;
+                }
+                else if(msg.equals("WHITEEND") && mycolor.equals("GREEN")){
+                    myturn = true;
+                }
+                else if(msg.equals("GREENEND") && mycolor.equals("BLACK")){
+                    myturn = true;
+                }
+
                 if(msg.equals("BLACKEND") || msg.equals("REDEND") || msg.equals("GREENEND") || msg.equals("WHITEEND")){
                     Log.d("Game", msg);
                     if(msg.equals("BLACKEND")){
@@ -105,20 +119,25 @@ public class GameActivity extends AppCompatActivity{
                             @Override
                             public void run() {
                                 Log.d("timer", "new timer");
+                                boolean interrupted = false;
                                 for (int i = timeLimit; i >= 0; i--) {
                                     SSegmentWrite(i);
                                     if (i > 0) {
                                         try {
                                             Thread.sleep(1000);
                                         } catch (InterruptedException e) {
+                                            interrupted = true;
                                             break;
                                         }
                                     }
-                                    Intent intent = new Intent("GroupMessageReceived");
-                                    intent.putExtra("message", "REDEND");
-                                    LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
                                 }
-
+                                if(interrupted == false && mycolor.equals("RED")) {
+                                    GroupManagerServer.broadcastToGroup(mycolor + "END");
+                                    Intent intent = new Intent("GroupMessageReceived");
+                                    intent.putExtra("message", mycolor + "END");
+                                    LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
+                                    myturn = false;
+                                }
                             }
                         });
                         timer.start();
@@ -137,24 +156,30 @@ public class GameActivity extends AppCompatActivity{
                         }).start();
                     }
                     if(msg.equals("REDEND")){
+                        timer.interrupt();
                         timer = new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 Log.d("timer", "new timer");
+                                boolean interrupted = false;
                                 for (int i = timeLimit; i >= 0; i--) {
                                     SSegmentWrite(i);
                                     if (i > 0) {
                                         try {
                                             Thread.sleep(1000);
                                         } catch (InterruptedException e) {
+                                            interrupted = true;
                                             break;
                                         }
                                     }
-                                    Intent intent = new Intent("GroupMessageReceived");
-                                    intent.putExtra("message", "WHITEEND");
-                                    LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
                                 }
-
+                                if(interrupted == false && mycolor.equals("WHITE")) {
+                                    GroupManagerServer.broadcastToGroup(mycolor + "END");
+                                    Intent intent = new Intent("GroupMessageReceived");
+                                    intent.putExtra("message", mycolor + "END");
+                                    LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
+                                    myturn = false;
+                                }
                             }
                         });
                         timer.start();
@@ -173,24 +198,30 @@ public class GameActivity extends AppCompatActivity{
                         }).start();
                     }
                     if(msg.equals("WHITEEND")){
+                        timer.interrupt();
                         timer = new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 Log.d("timer", "new timer");
+                                boolean interrupted = false;
                                 for (int i = timeLimit; i >= 0; i--) {
                                     SSegmentWrite(i);
                                     if (i > 0) {
                                         try {
                                             Thread.sleep(1000);
                                         } catch (InterruptedException e) {
+                                            interrupted = true;
                                             break;
                                         }
                                     }
-                                    Intent intent = new Intent("GroupMessageReceived");
-                                    intent.putExtra("message", "GREENEND");
-                                    LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
                                 }
-
+                                if(interrupted == false && mycolor.equals("GREEN")) {
+                                    GroupManagerServer.broadcastToGroup(mycolor + "END");
+                                    Intent intent = new Intent("GroupMessageReceived");
+                                    intent.putExtra("message", mycolor + "END");
+                                    LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
+                                    myturn = false;
+                                }
                             }
                         });
                         timer.start();
@@ -209,24 +240,30 @@ public class GameActivity extends AppCompatActivity{
                         }).start();
                     }
                     if(msg.equals("GREENEND")){
+                        timer.interrupt();
                         timer = new Thread(new Runnable() {
                             @Override
                             public void run() {
                                 Log.d("timer", "new timer");
+                                boolean interrupted = false;
                                 for (int i = timeLimit; i >= 0; i--) {
                                     SSegmentWrite(i);
                                     if (i > 0) {
                                         try {
                                             Thread.sleep(1000);
                                         } catch (InterruptedException e) {
+                                            interrupted = true;
                                             break;
                                         }
                                     }
-                                    Intent intent = new Intent("GroupMessageReceived");
-                                    intent.putExtra("message", "BLACKEND");
-                                    LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
                                 }
-
+                                if(interrupted == false && mycolor.equals("BLACK")) {
+                                    GroupManagerServer.broadcastToGroup(mycolor + "END");
+                                    Intent intent = new Intent("GroupMessageReceived");
+                                    intent.putExtra("message", mycolor + "END");
+                                    LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
+                                    myturn = false;
+                                }
                             }
                         });
                         timer.start();
@@ -329,18 +366,6 @@ public class GameActivity extends AppCompatActivity{
                 }
                 else if(msg.equals("CHECKMATE")){
                     checkid.setText("CHECKMATE");
-                }
-                else if(msg.equals("BLACKEND") && mycolor.equals("RED")){
-                    myturn = true;
-                }
-                else if(msg.equals("REDEND") && mycolor.equals("WHITE")){
-                    myturn = true;
-                }
-                else if(msg.equals("WHITEEND") && mycolor.equals("GREEN")){
-                    myturn = true;
-                }
-                else if(msg.equals("GREENEND") && mycolor.equals("BLACK")){
-                    myturn = true;
                 }
                 else if(msg.length()>9){
                     Movelistener(msg);
