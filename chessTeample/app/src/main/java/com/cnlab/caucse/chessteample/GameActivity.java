@@ -543,7 +543,7 @@ public class GameActivity extends AppCompatActivity{
                         }
                         return true;
                     }
-                    else if(checkcolor.equals(teamcolor)){
+                 /*   else if(checkcolor.equals(teamcolor)){
                         for(int z = 0; z<btnEx[i][j].getPiece().getCanMoves(btnEx).size(); z++){
                             String temp =btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].getColor();
                             btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].setOnPiece(false);
@@ -610,7 +610,7 @@ public class GameActivity extends AppCompatActivity{
 
                         }
                         return false;
-                    }
+                    }*/
 
                 }
             }
