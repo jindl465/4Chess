@@ -622,12 +622,33 @@ public class GameActivity extends AppCompatActivity{
                     if(btnEx[a][b].getColor().equals(mycolor) && myturn == true){
                         for(int c =0 ; c<btnEx[a][b].getPiece().getCanMoves(btnEx).size();c++){
                             String temp = btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].getColor();
+                            btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setOnPiece(true);
                             btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(mycolor);
-                            if(checkcheck() ==false){
-                                btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
-                                return false;
+                            btnEx[a][b].setOnPiece(false);
+                            btnEx[a][b].setColor("NONE");
+
+                            for(int i =0; i<14 ; i++){
+                                for(int j = 0 ; j<14; j++){
+                                    for(int k = 0 ; k<btnEx[i][j].getPiece().getCanMoves(btnEx).size();k++){
+                                        if(!(btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(k).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(k).getY()].getPiecetype().equals("KING"))){
+
+                                            btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
+                                            if(temp.equals("NONE")){
+                                                btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setOnPiece(false);
+                                            }
+                                            btnEx[a][b].setOnPiece(true);
+                                            btnEx[a][b].setColor(mycolor);
+                                            return false;
+                                        }
+                                    }
+                                }
                             }
                             btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
+                            if(temp.equals("NONE")){
+                                btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setOnPiece(false);
+                            }
+                            btnEx[a][b].setOnPiece(true);
+                            btnEx[a][b].setColor(mycolor);
 
                         }
 
