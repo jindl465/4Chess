@@ -26,6 +26,7 @@ public class GameActivity extends AppCompatActivity{
         System.loadLibrary("lcd");
         System.loadLibrary("led");
         System.loadLibrary("chess");
+        System.loadLibrary("switch");
     }
     public native int SSegmentWrite(int data);
     public native int LcdWrite(String a, String b);
@@ -33,6 +34,7 @@ public class GameActivity extends AppCompatActivity{
     public native int ledWrite(int data);
     public native int ledOff(int num);
     public native int ledOn(int num);
+    public native String getKeyboard();
 
     public Thread timer;
     private ImageButton btn[][] = new ImageButton[14][14];
@@ -111,7 +113,11 @@ public class GameActivity extends AppCompatActivity{
                     myturn = true;
                 }
 
-                if(msg.equals("BLACKEND") || msg.equals("REDEND") || msg.equals("GREENEND") || msg.equals("WHITEEND")){
+                if (msg.startsWith("CHAT:")) {
+                    String[] chat = msg.split(":", 3);
+                    adapter.additem(chat[1], chat[2]);
+                }
+                else if(msg.equals("BLACKEND") || msg.equals("REDEND") || msg.equals("GREENEND") || msg.equals("WHITEEND")){
                     Log.d("Game", msg);
                     if(msg.equals("BLACKEND")){
                         timer.interrupt();
@@ -437,6 +443,18 @@ public class GameActivity extends AppCompatActivity{
                 ledOn(5);
                 ledOn(6);
                 ledOn(7);
+            }
+        }).start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String keyboardInput = getKeyboard();
+                String message = "CHAT:" + mycolor + ":" + keyboardInput;
+                GroupManagerServer.broadcastToGroup(message);
+                Intent intent = new Intent("GroupMessageReceived");
+                intent.putExtra("message", message);
+                LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
             }
         }).start();
     }
