@@ -510,9 +510,9 @@ public class GameActivity extends AppCompatActivity{
             for(int j = 0; j <=13; j++){
                 if(btnEx[i][j].isOnPiece()==true && btnEx[i][j].getColor().equals(mycolor)){
                     if(checkcolor.equals(mycolor)){
-
+                        String temp = "";
                         for(int z = 0; z<btnEx[i][j].getPiece().getCanMoves(btnEx).size(); z++){
-                         String temp =btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].getColor();
+                         temp =btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].getColor();
                             btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].setOnPiece(false);
                          btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].setColor(mycolor);
                             btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].setOnPiece(true);
@@ -524,7 +524,8 @@ public class GameActivity extends AppCompatActivity{
                                             if(!(btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].getPiecetype().equals("KING") && btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].getColor().equals(mycolor))){
                                                 btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].setOnPiece(true);
                                                 btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].setColor(mycolor);
-                                                btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].setColor(temp);if(!temp.equals("NONE")){
+                                                btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].setColor(temp);
+                                                if(!temp.equals("NONE")){
                                                     btnEx[btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getX()][btnEx[i][j].getPiece().getCanMoves(btnEx).get(z).getY()].setOnPiece(true);
                                                 }
                                                 return false;
