@@ -114,6 +114,8 @@ public class GameActivity extends AppCompatActivity{
                                     break;
                                 }
                             }
+                            timeout();
+
                         }
                     });
                     timer.start();
@@ -328,6 +330,7 @@ public class GameActivity extends AppCompatActivity{
                         break;
                     }
                 }
+                timeout();
             }
         });
         timer.start();
@@ -769,6 +772,7 @@ public class GameActivity extends AppCompatActivity{
                                                             break;
                                                         }
                                                     }
+                                                    timeout();
                                                 }
                                             });
                                             timer.start();
@@ -804,6 +808,7 @@ public class GameActivity extends AppCompatActivity{
                                                                 break;
                                                             }
                                                         }
+                                                        timeout();
                                                     }
                                                 });
                                                 timer.start();
@@ -837,6 +842,7 @@ public class GameActivity extends AppCompatActivity{
                                                                 break;
                                                             }
                                                         }
+                                                        timeout();
                                                     }
                                                 });
                                                 timer.start();
@@ -870,6 +876,7 @@ public class GameActivity extends AppCompatActivity{
                                                                 break;
                                                             }
                                                         }
+                                                        timeout();
                                                     }
                                                 });
                                                 timer.start();
@@ -921,6 +928,147 @@ public class GameActivity extends AppCompatActivity{
             }
         }
 
+    }
+
+    public void timeout(){
+        if (mycolor.equals("BLACK")) {
+            timer.interrupt();
+            timer = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d("timer", "new timer");
+                    for (int i = timeLimit; i >= 0; i--) {
+                        SSegmentWrite(i);
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            break;
+                        }
+                    }
+                    timeout();
+                }
+            });
+            timer.start();
+            // LocalBroadcastManager.getInstance(this)
+            GroupManagerServer.broadcastToGroup("BLACKEND");
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    LcdWrite("RED", "WHITE");
+                }
+            }).start();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ledOff(3);
+                    ledOn(2);
+                }
+            }).start();
+            myturn = false;
+        } else {
+            if(mycolor.equals("RED")){
+                timer.interrupt();
+                timer = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("timer", "new timer");
+                        for (int i = timeLimit; i >= 0; i--) {
+                            SSegmentWrite(i);
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                break;
+                            }
+                        }
+                        timeout();
+                    }
+                });
+                timer.start();
+                GroupManagerClient.broadcastToGroup("REDEND");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        LcdWrite("WHITE", "GREEN");
+                    }
+                }).start();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ledOff(2);
+                        ledOn(1);
+                    }
+                }).start();
+                myturn = false;
+            }
+            if(mycolor.equals("GREEN")){
+                timer.interrupt();
+                timer = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("timer", "new timer");
+                        for (int i = timeLimit; i >= 0; i--) {
+                            SSegmentWrite(i);
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                break;
+                            }
+                        }
+                        timeout();
+                    }
+                });
+                timer.start();
+                GroupManagerClient.broadcastToGroup("GREENEND");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        LcdWrite("BLACK", "RED");
+                    }
+                }).start();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ledOff(0);
+                        ledOn(3);
+                    }
+                }).start();
+                myturn = false;
+            }
+            if(mycolor.equals("WHITE")){
+                timer.interrupt();
+                timer = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Log.d("timer", "new timer");
+                        for (int i = timeLimit; i >= 0; i--) {
+                            SSegmentWrite(i);
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                break;
+                            }
+                        }
+                        timeout();
+                    }
+                });
+                timer.start();
+                GroupManagerClient.broadcastToGroup("WHITEEND");
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        LcdWrite("GREEN", "BLACK");
+                    }
+                }).start();
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ledOff(1);
+                        ledOn(0);
+                    }
+                }).start();
+                myturn = false;
+            }
+        }
     }
 
     public void Movelistener(String msg) {
