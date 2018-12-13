@@ -131,10 +131,15 @@ public class GameActivity extends AppCompatActivity{
                                         }
                                     }
                                 }
-                                if(interrupted == false && mycolor.equals("RED")) {
-                                    GroupManagerServer.broadcastToGroup(mycolor + "END");
+                                if(interrupted == false) {// && mycolor.equals("RED")
+                                    if(mycolor.equals("BLACK")){
+                                        GroupManagerServer.broadcastToGroup("RED" + "END");
+                                    }
+                                    else{
+                                        GroupManagerClient.broadcastToGroup("RED" + "END");
+                                    }
                                     Intent intent = new Intent("GroupMessageReceived");
-                                    intent.putExtra("message", mycolor + "END");
+                                    intent.putExtra("message", "RED" + "END");
                                     LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
                                     myturn = false;
                                 }
@@ -173,10 +178,15 @@ public class GameActivity extends AppCompatActivity{
                                         }
                                     }
                                 }
-                                if(interrupted == false && mycolor.equals("WHITE")) {
-                                    GroupManagerServer.broadcastToGroup(mycolor + "END");
+                                if(interrupted == false) { // && mycolor.equals("WHITE")
+                                    if(mycolor.equals("BLACK")){
+                                        GroupManagerServer.broadcastToGroup("WHITE" + "END");
+                                    }
+                                    else{
+                                        GroupManagerClient.broadcastToGroup("WHITE" + "END");
+                                    }
                                     Intent intent = new Intent("GroupMessageReceived");
-                                    intent.putExtra("message", mycolor + "END");
+                                    intent.putExtra("message", "WHITE" + "END");
                                     LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
                                     myturn = false;
                                 }
@@ -215,10 +225,15 @@ public class GameActivity extends AppCompatActivity{
                                         }
                                     }
                                 }
-                                if(interrupted == false && mycolor.equals("GREEN")) {
-                                    GroupManagerServer.broadcastToGroup(mycolor + "END");
+                                if(interrupted == false) { // && mycolor.equals("GREEN")
+                                    if(mycolor.equals("BLACK")){
+                                        GroupManagerServer.broadcastToGroup("GREEN" + "END");
+                                    }
+                                    else{
+                                        GroupManagerClient.broadcastToGroup("GREEN" + "END");
+                                    }
                                     Intent intent = new Intent("GroupMessageReceived");
-                                    intent.putExtra("message", mycolor + "END");
+                                    intent.putExtra("message", "GREEN" + "END");
                                     LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
                                     myturn = false;
                                 }
@@ -257,10 +272,15 @@ public class GameActivity extends AppCompatActivity{
                                         }
                                     }
                                 }
-                                if(interrupted == false && mycolor.equals("BLACK")) {
-                                    GroupManagerServer.broadcastToGroup(mycolor + "END");
+                                if(interrupted == false) { // && mycolor.equals("BLACK")
+                                    if(mycolor.equals("BLACK")){
+                                        GroupManagerServer.broadcastToGroup("BLACK" + "END");
+                                    }
+                                    else{
+                                        GroupManagerClient.broadcastToGroup("BLACK" + "END");
+                                    }
                                     Intent intent = new Intent("GroupMessageReceived");
-                                    intent.putExtra("message", mycolor + "END");
+                                    intent.putExtra("message", "BLACK" + "END");
                                     LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
                                     myturn = false;
                                 }
@@ -392,7 +412,7 @@ public class GameActivity extends AppCompatActivity{
                         }
                     }
                 }
-                if(interrupted == false && mycolor.equals("RED")) {
+                if(interrupted == false && mycolor.equals("BLACK")) {
                     GroupManagerServer.broadcastToGroup(mycolor + "END");
                     Intent intent = new Intent("GroupMessageReceived");
                     intent.putExtra("message", mycolor + "END");
@@ -854,9 +874,16 @@ public class GameActivity extends AppCompatActivity{
                                         }
                                         String msg = "";
                                         msg = msg + mycolor + ":" + Integer.toString(findx) + ":" + Integer.toString(findy) + ":" + Integer.toString(finalI) + ":" + Integer.toString(finalJ);
+                                        if(mycolor.equals("BLACK")){
 
-                                        GroupManagerServer.broadcastToGroup(msg);
-                                        GroupManagerServer.broadcastToGroup(mycolor + "END");
+                                            GroupManagerServer.broadcastToGroup(msg);
+                                            GroupManagerServer.broadcastToGroup(mycolor + "END");
+                                        }
+                                        else{
+
+                                            GroupManagerClient.broadcastToGroup(msg);
+                                            GroupManagerClient.broadcastToGroup(mycolor + "END");
+                                        }
                                         Intent intent = new Intent("GroupMessageReceived");
                                         intent.putExtra("message", mycolor + "END");
                                         LocalBroadcastManager.getInstance(gameContext).sendBroadcast(intent);
