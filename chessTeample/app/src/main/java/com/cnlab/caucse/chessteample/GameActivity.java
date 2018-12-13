@@ -81,7 +81,10 @@ public class GameActivity extends AppCompatActivity{
             @Override
             public void onReceive(Context context, Intent intent) {
                 String msg = intent.getStringExtra("message");
-                if(msg.equals("CHECKMATE")){
+                if(msg.equals("STALEMATE")){
+                    checkid.setText("STALEMATE");
+                }
+                else if(msg.equals("CHECKMATE")){
                     checkid.setText("CHECKMATE");
                 }
                 else if(msg.equals("BLACKEND") && mycolor.equals("RED")){
@@ -99,7 +102,6 @@ public class GameActivity extends AppCompatActivity{
                 else if(msg.length()>9){
                     Movelistener(msg);
                     checkcheck();
-                    checkcheckmate();
                 }
 
             }
@@ -237,11 +239,11 @@ public class GameActivity extends AppCompatActivity{
         return false;
     }
 
-    public boolean checkstalemate(String mycolor){
-        if(checkcheck()!=true){
+    public boolean checkstalemate(){
+        if(checkcheck()==false){
             for(int a = 0 ; a < 14; a++) {
                 for (int b = 0; b < 14; b++) {
-                    if(btnEx[a][b].getColor().equals(mycolor)){
+                    if(btnEx[a][b].getColor().equals(mycolor) && myturn == true){
                         for(int c =0 ; c<btnEx[a][b].getPiece().getCanMoves(btnEx).size();c++){
                             String temp = btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].getColor();
                             btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(mycolor);
@@ -250,11 +252,19 @@ public class GameActivity extends AppCompatActivity{
                                 return false;
                             }
                             btnEx[btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getX()][btnEx[a][b].getPiece().getCanMoves(btnEx).get(c).getY()].setColor(temp);
+
                         }
+                        checkid.setText("STALEMATE");
+                        if(mycolor.equals("BLACK")){
+                            GroupManagerServer.broadcastToGroup("STALEMATE");
+                        }
+                        else{
+                            GroupManagerClient.broadcastToGroup("STALEMATE");
+                        }
+                        return true;
                     }
                 }
             }
-            return true;
         }
 
         return false;
@@ -429,6 +439,7 @@ public class GameActivity extends AppCompatActivity{
 
                                         checkcheck();
                                         checkcheckmate();
+                                        checkstalemate();
                                     }
 
                                 }
