@@ -12,7 +12,7 @@ public class PeriodicBroadcastSender {
     private Thread mBroadcastSender = null;
     private boolean mBroadcastSendState = false;
     private String mBroadcastSendMessage = null;
-    private int mBroadcastSendPeriod = 2;
+    private int mBroadcastSendPeriod = 1;
 
     public PeriodicBroadcastSender(String BroadcastSendMessage) {
         this(BroadcastSendMessage, 2);
