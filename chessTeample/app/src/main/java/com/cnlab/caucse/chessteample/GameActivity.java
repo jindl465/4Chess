@@ -19,6 +19,19 @@ import java.util.ArrayList;
 import java.util.StringTokenizer;
 
 public class GameActivity extends AppCompatActivity{
+
+    static {
+        System.loadLibrary("7segment");
+        System.loadLibrary("lcd");
+        System.loadLibrary("led");
+        System.loadLibrary("chess");
+    }
+    public native int SSegmentWrite(int data);
+    public native int LcdWrite(String a, String b);
+    public native int DotmatrixWrite(int data);
+    public native int ledOff(int num);
+    public native int ledOn(int num);
+
     private ImageButton btn[][] = new ImageButton[14][14];
     private Tile btnEx[][] = new Tile[14][14];
     public static Context context;
@@ -69,8 +82,6 @@ public class GameActivity extends AppCompatActivity{
         setStartTile();
         setbcl();
 
-        //GroupManagerServer.broadcastToGroup(message);
-
         context = this;
 
         BroadcastReceiver GroupMessageReceived = new BroadcastReceiver() {
@@ -80,6 +91,37 @@ public class GameActivity extends AppCompatActivity{
             }
         };
         LocalBroadcastManager.getInstance(this).registerReceiver(GroupMessageReceived, new IntentFilter("GroupMessageReceived"));
+
+        // device control example
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                SSegmentWrite(20);
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                LcdWrite("hi", "hello");
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                DotmatrixWrite(1);
+            }
+        }).start();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                ledOn(0);
+                ledOn(1);
+                ledOn(2);
+                ledOn(4);
+                ledOn(5);
+                ledOn(6);
+            }
+        }).start();
     }
 
     public Tile[][] getBtnEx() {
