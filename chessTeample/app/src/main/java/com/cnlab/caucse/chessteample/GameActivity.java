@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cnlab.caucse.chessteample.Network.GroupManagerClient;
@@ -46,6 +47,8 @@ public class GameActivity extends AppCompatActivity{
     private ArrayList<Position> cantouch;
     public boolean myturn;
     public static final String[] playerColors = {"BLACK", "WHITE", "RED", "GREEN"};
+    private ListView listView;
+    private ListViewAdapter adapter;
 
     // Used to load the 'native-lib' library on application startup.
     static {
@@ -83,6 +86,14 @@ public class GameActivity extends AppCompatActivity{
         if(mycolor.equals("BLACK")){
             myturn = true;
         }
+
+
+
+        adapter = new ListViewAdapter();
+
+        listView = (ListView) findViewById(R.id.listView);
+        listView.setAdapter(adapter);
+
 
         BroadcastReceiver GroupMessageReceived = new BroadcastReceiver() {
             @Override
