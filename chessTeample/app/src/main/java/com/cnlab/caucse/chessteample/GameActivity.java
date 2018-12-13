@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.cnlab.caucse.chessteample.Network.GroupManagerClient;
@@ -47,6 +48,8 @@ public class GameActivity extends AppCompatActivity{
     private ArrayList<Position> cantouch;
     public boolean myturn;
     public static final String[] playerColors = {"BLACK", "WHITE", "RED", "GREEN"};
+    private ListView listView;
+    private ListViewAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,8 +83,13 @@ public class GameActivity extends AppCompatActivity{
             myturn = true;
         }
 
-        // init led
-        ledWrite(0);
+
+
+        adapter = new ListViewAdapter();
+
+        listView = (ListView) findViewById(R.id.listView);
+        listView.setAdapter(adapter);
+
 
         BroadcastReceiver GroupMessageReceived = new BroadcastReceiver() {
             @Override
@@ -1595,4 +1603,3 @@ public class GameActivity extends AppCompatActivity{
 }
 
 }
-
