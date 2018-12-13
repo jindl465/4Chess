@@ -114,7 +114,6 @@ public class GameActivity extends AppCompatActivity{
                                     break;
                                 }
                             }
-                            timeout();
 
                         }
                     });
@@ -330,7 +329,7 @@ public class GameActivity extends AppCompatActivity{
                         break;
                     }
                 }
-                timeout();
+
             }
         });
         timer.start();
@@ -563,9 +562,10 @@ public class GameActivity extends AppCompatActivity{
                                             }
                                             if (mflag == 1) break;
                                         }
+                                        eatenPiece = "NONE";
                                         if (!(btnEx[finalI][finalJ].getPiecetype().equals("NONE"))) {
                                             eatenPiece = btnEx[finalI][finalJ].getPiecetype();
-                                            if(eatenPiece.equals("KING") || btnEx[finalI][finalJ].getColor().equals("BLACK")){
+                                            if(eatenPiece.equals("KING") && btnEx[finalI][finalJ].getColor().equals("BLACK")){
                                                 GroupManagerServer.broadcastToGroup("BLACKKINGDIE");
                                                 new Thread(new Runnable() {
                                                     @Override
@@ -575,7 +575,7 @@ public class GameActivity extends AppCompatActivity{
                                                 }).start();
 
                                             }
-                                            if(eatenPiece.equals("KING") || btnEx[finalI][finalJ].getColor().equals("RED")){
+                                            if(eatenPiece.equals("KING") && btnEx[finalI][finalJ].getColor().equals("RED")){
                                                 GroupManagerServer.broadcastToGroup("REDKINGDIE");
                                                 new Thread(new Runnable() {
                                                     @Override
@@ -584,7 +584,7 @@ public class GameActivity extends AppCompatActivity{
                                                     }
                                                 }).start();
                                             }
-                                            if(eatenPiece.equals("KING") || btnEx[finalI][finalJ].getColor().equals("WHITE")){
+                                            if(eatenPiece.equals("KING") && btnEx[finalI][finalJ].getColor().equals("WHITE")){
                                                 GroupManagerServer.broadcastToGroup("WHITEKINGDIE");
                                                 new Thread(new Runnable() {
                                                     @Override
@@ -593,7 +593,7 @@ public class GameActivity extends AppCompatActivity{
                                                     }
                                                 }).start();
                                             }
-                                            if(eatenPiece.equals("KING") || btnEx[finalI][finalJ].getColor().equals("GREEN")){
+                                            if(eatenPiece.equals("KING") && btnEx[finalI][finalJ].getColor().equals("GREEN")){
                                                 GroupManagerServer.broadcastToGroup("GREENKINGDIE");
                                                 new Thread(new Runnable() {
                                                     @Override
@@ -772,7 +772,7 @@ public class GameActivity extends AppCompatActivity{
                                                             break;
                                                         }
                                                     }
-                                                    timeout();
+
                                                 }
                                             });
                                             timer.start();
@@ -808,7 +808,7 @@ public class GameActivity extends AppCompatActivity{
                                                                 break;
                                                             }
                                                         }
-                                                        timeout();
+
                                                     }
                                                 });
                                                 timer.start();
@@ -842,7 +842,7 @@ public class GameActivity extends AppCompatActivity{
                                                                 break;
                                                             }
                                                         }
-                                                        timeout();
+
                                                     }
                                                 });
                                                 timer.start();
@@ -876,7 +876,7 @@ public class GameActivity extends AppCompatActivity{
                                                                 break;
                                                             }
                                                         }
-                                                        timeout();
+
                                                     }
                                                 });
                                                 timer.start();
@@ -945,7 +945,7 @@ public class GameActivity extends AppCompatActivity{
                             break;
                         }
                     }
-                    timeout();
+
                 }
             });
             timer.start();
@@ -980,7 +980,7 @@ public class GameActivity extends AppCompatActivity{
                                 break;
                             }
                         }
-                        timeout();
+
                     }
                 });
                 timer.start();
@@ -1014,7 +1014,7 @@ public class GameActivity extends AppCompatActivity{
                                 break;
                             }
                         }
-                        timeout();
+
                     }
                 });
                 timer.start();
@@ -1048,7 +1048,7 @@ public class GameActivity extends AppCompatActivity{
                                 break;
                             }
                         }
-                        timeout();
+
                     }
                 });
                 timer.start();
@@ -1562,10 +1562,10 @@ public class GameActivity extends AppCompatActivity{
         btnEx[0][4] = new Tile("KNIGHT", "RED", new Position(0,4));
         btn[0][5].setImageResource(R.mipmap.bishop_red);
         btnEx[0][5] = new Tile("BISHOP", "RED", new Position(0,5));
-        btn[0][6].setImageResource(R.mipmap.queen_red);
-        btnEx[0][6] = new Tile("QUEEN", "RED", new Position(0,6));
-        btn[0][7].setImageResource(R.mipmap.king_red);
-        btnEx[0][7] = new Tile("KING", "RED", new Position(0,7));
+        btn[0][6].setImageResource(R.mipmap.king_red);
+        btnEx[0][6] = new Tile("KING", "RED", new Position(0,6));
+        btn[0][7].setImageResource(R.mipmap.queen_red);
+        btnEx[0][7] = new Tile("QUEEN", "RED", new Position(0,7));
         btn[0][8].setImageResource(R.mipmap.bishop_red);
         btnEx[0][8] = new Tile("BISHOP", "RED", new Position(0,8));
         btn[0][9].setImageResource(R.mipmap.knight_red);
@@ -1583,10 +1583,10 @@ public class GameActivity extends AppCompatActivity{
         btnEx[13][4] = new Tile("KNIGHT", "GREEN", new Position(13,4));
         btn[13][5].setImageResource(R.mipmap.bishop_green);
         btnEx[13][5] = new Tile("BISHOP", "GREEN", new Position(13,5));
-        btn[13][6].setImageResource(R.mipmap.king_green);
-        btnEx[13][6] = new Tile("KING", "GREEN", new Position(13, 6));
-        btn[13][7].setImageResource(R.mipmap.queen_green);
-        btnEx[13][7] = new Tile("QUEEN", "GREEN", new Position(13,7));
+        btn[13][6].setImageResource(R.mipmap.queen_green);
+        btnEx[13][6] = new Tile("QUEEN", "GREEN", new Position(13, 6));
+        btn[13][7].setImageResource(R.mipmap.king_green);
+        btnEx[13][7] = new Tile("KING", "GREEN", new Position(13,7));
         btn[13][8].setImageResource(R.mipmap.bishop_green);
         btnEx[13][8] = new Tile("BISHOP", "GREEN", new Position(13,8));
         btn[13][9].setImageResource(R.mipmap.knight_green);
@@ -1650,10 +1650,10 @@ public class GameActivity extends AppCompatActivity{
             btnEx[0][4] = new Tile("KNIGHT", "GREEN", new Position(0,4));
             btn[0][5].setImageResource(R.mipmap.bishop_green);
             btnEx[0][5] = new Tile("BISHOP", "GREEN", new Position(0,5));
-            btn[0][6].setImageResource(R.mipmap.queen_green);
-            btnEx[0][6] = new Tile("QUEEN", "GREEN", new Position(0,6));
-            btn[0][7].setImageResource(R.mipmap.king_green);
-            btnEx[0][7] = new Tile("KING", "GREEN", new Position(0,7));
+            btn[0][6].setImageResource(R.mipmap.king_green);
+            btnEx[0][6] = new Tile("KING", "GREEN", new Position(0,6));
+            btn[0][7].setImageResource(R.mipmap.queen_green);
+            btnEx[0][7] = new Tile("QUEEN", "GREEN", new Position(0,7));
             btn[0][8].setImageResource(R.mipmap.bishop_green);
             btnEx[0][8] = new Tile("BISHOP", "GREEN", new Position(0,8));
             btn[0][9].setImageResource(R.mipmap.knight_green);
@@ -1671,10 +1671,10 @@ public class GameActivity extends AppCompatActivity{
             btnEx[13][4] = new Tile("KNIGHT", "RED", new Position(13,4));
             btn[13][5].setImageResource(R.mipmap.bishop_red);
             btnEx[13][5] = new Tile("BISHOP", "RED", new Position(13,5));
-            btn[13][6].setImageResource(R.mipmap.king_red);
-            btnEx[13][6] = new Tile("KING", "RED", new Position(13, 6));
-            btn[13][7].setImageResource(R.mipmap.queen_red);
-            btnEx[13][7] = new Tile("QUEEN", "RED", new Position(13,7));
+            btn[13][6].setImageResource(R.mipmap.queen_red);
+            btnEx[13][6] = new Tile("QUEEN", "RED", new Position(13, 6));
+            btn[13][7].setImageResource(R.mipmap.king_red);
+            btnEx[13][7] = new Tile("KING", "RED", new Position(13,7));
             btn[13][8].setImageResource(R.mipmap.bishop_red);
             btnEx[13][8] = new Tile("BISHOP", "RED", new Position(13,8));
             btn[13][9].setImageResource(R.mipmap.knight_red);
@@ -1719,9 +1719,9 @@ public class GameActivity extends AppCompatActivity{
             btnEx[5][13] = new Tile("BISHOP", "GREEN", new Position(5,13));
             btn[6][13].setImageResource(R.mipmap.king_green);
             btnEx[6][13] = new Tile("KING", "GREEN", new Position(6,13));
-            btn[7][13].setImageResource(R.mipmap.king_green);
+            btn[7][13].setImageResource(R.mipmap.queen_green);
             btnEx[7][13] = new Tile("QUEEN", "GREEN", new Position(7,13));
-            btn[8][13].setImageResource(R.mipmap.queen_green);
+            btn[8][13].setImageResource(R.mipmap.bishop_green);
             btnEx[8][13] = new Tile("BISHOP", "GREEN", new Position(8,13));
             btn[9][13].setImageResource(R.mipmap.knight_green);
             btnEx[9][13] = new Tile("KNIGHT", "GREEN", new Position(9,13));
@@ -1738,10 +1738,10 @@ public class GameActivity extends AppCompatActivity{
             btnEx[0][4] = new Tile("KNIGHT", "WHITE", new Position(0,4));
             btn[0][5].setImageResource(R.mipmap.bishop_white);
             btnEx[0][5] = new Tile("BISHOP", "WHITE", new Position(0,5));
-            btn[0][6].setImageResource(R.mipmap.king_white);
-            btnEx[0][6] = new Tile("KING", "WHITE", new Position(0,6));
-            btn[0][7].setImageResource(R.mipmap.queen_white);
-            btnEx[0][7] = new Tile("QUEEN", "WHITE", new Position(0,7));
+            btn[0][6].setImageResource(R.mipmap.queen_white);
+            btnEx[0][6] = new Tile("QUEEN", "WHITE", new Position(0,6));
+            btn[0][7].setImageResource(R.mipmap.king_white);
+            btnEx[0][7] = new Tile("KING", "WHITE", new Position(0,7));
             btn[0][8].setImageResource(R.mipmap.bishop_white);
             btnEx[0][8] = new Tile("BISHOP", "WHITE", new Position(0,8));
             btn[0][9].setImageResource(R.mipmap.knight_white);
@@ -1759,10 +1759,10 @@ public class GameActivity extends AppCompatActivity{
             btnEx[13][4] = new Tile("KNIGHT", "BLACK", new Position(13,4));
             btn[13][5].setImageResource(R.mipmap.bishop_black);
             btnEx[13][5] = new Tile("BISHOP", "BLACK", new Position(13,5));
-            btn[13][6].setImageResource(R.mipmap.queen_black);
-            btnEx[13][6] = new Tile("QUEEN", "BLACK", new Position(13, 6));
-            btn[13][7].setImageResource(R.mipmap.king_black);
-            btnEx[13][7] = new Tile("KING", "BLACK", new Position(13,7));
+            btn[13][6].setImageResource(R.mipmap.king_black);
+            btnEx[13][6] = new Tile("KING", "BLACK", new Position(13, 6));
+            btn[13][7].setImageResource(R.mipmap.queen_black);
+            btnEx[13][7] = new Tile("QUEEN", "BLACK", new Position(13,7));
             btn[13][8].setImageResource(R.mipmap.bishop_black);
             btnEx[13][8] = new Tile("BISHOP", "BLACK", new Position(13,8));
             btn[13][9].setImageResource(R.mipmap.knight_black);
@@ -1826,10 +1826,10 @@ public class GameActivity extends AppCompatActivity{
             btnEx[0][4] = new Tile("KNIGHT", "BLACK", new Position(0,4));
             btn[0][5].setImageResource(R.mipmap.bishop_black);
             btnEx[0][5] = new Tile("BISHOP", "BLACK", new Position(0,5));
-            btn[0][6].setImageResource(R.mipmap.king_black);
-            btnEx[0][6] = new Tile("KING", "BLACK", new Position(0,6));
-            btn[0][7].setImageResource(R.mipmap.queen_black);
-            btnEx[0][7] = new Tile("QUEEN", "BLACK", new Position(0,7));
+            btn[0][6].setImageResource(R.mipmap.queen_black);
+            btnEx[0][6] = new Tile("QUEEN", "BLACK", new Position(0,6));
+            btn[0][7].setImageResource(R.mipmap.king_black);
+            btnEx[0][7] = new Tile("KING", "BLACK", new Position(0,7));
             btn[0][8].setImageResource(R.mipmap.bishop_black);
             btnEx[0][8] = new Tile("BISHOP", "BLACK", new Position(0,8));
             btn[0][9].setImageResource(R.mipmap.knight_black);
@@ -1847,10 +1847,10 @@ public class GameActivity extends AppCompatActivity{
             btnEx[13][4] = new Tile("KNIGHT", "WHITE", new Position(13,4));
             btn[13][5].setImageResource(R.mipmap.bishop_white);
             btnEx[13][5] = new Tile("BISHOP", "WHITE", new Position(13,5));
-            btn[13][6].setImageResource(R.mipmap.queen_white);
-            btnEx[13][6] = new Tile("QUEEN", "WHITE", new Position(13, 6));
-            btn[13][7].setImageResource(R.mipmap.king_white);
-            btnEx[13][7] = new Tile("KING", "WHITE", new Position(13,7));
+            btn[13][6].setImageResource(R.mipmap.king_white);
+            btnEx[13][6] = new Tile("KING", "WHITE", new Position(13, 6));
+            btn[13][7].setImageResource(R.mipmap.queen_white);
+            btnEx[13][7] = new Tile("QUEEN", "WHITE", new Position(13,7));
             btn[13][8].setImageResource(R.mipmap.bishop_white);
             btnEx[13][8] = new Tile("BISHOP", "WHITE", new Position(13,8));
             btn[13][9].setImageResource(R.mipmap.knight_white);
