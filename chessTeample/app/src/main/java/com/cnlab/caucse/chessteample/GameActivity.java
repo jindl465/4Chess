@@ -31,6 +31,7 @@ public class GameActivity extends AppCompatActivity{
     public native int SSegmentWrite(int data);
     public native int LcdWrite(String a, String b);
     public native int DotmatrixWrite(int data);
+    public native int ledWrite(int data);
     public native int ledOff(int num);
     public native int ledOn(int num);
 
@@ -46,11 +47,6 @@ public class GameActivity extends AppCompatActivity{
     private ArrayList<Position> cantouch;
     public boolean myturn;
     public static final String[] playerColors = {"BLACK", "WHITE", "RED", "GREEN"};
-
-    // Used to load the 'native-lib' library on application startup.
-    static {
-        System.loadLibrary("native-lib");
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,16 +80,28 @@ public class GameActivity extends AppCompatActivity{
             myturn = true;
         }
 
+        // init led
+        ledWrite(0);
+
         BroadcastReceiver GroupMessageReceived = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 String msg = intent.getStringExtra("message");
                 if(msg.equals("BLACKEND") || msg.equals("REDEND") || msg.equals("GREENEND") || msg.equals("WHITEEND")){
+                    Log.d("Game", msg);
                     timer.interrupt();
                     timer = new Thread(new Runnable() {
                         @Override
                         public void run() {
-                            SSegmentWrite(20);
+                            Log.d("timer", "new timer");
+                            for (int i = 20; i >= 0; i++) {
+                                SSegmentWrite(i);
+                                try {
+                                    Thread.sleep(1000);
+                                } catch (InterruptedException e) {
+                                    break;
+                                }
+                            }
                         }
                     });
                     timer.start();
@@ -299,7 +307,15 @@ public class GameActivity extends AppCompatActivity{
         timer = new Thread(new Runnable() {
             @Override
             public void run() {
-                SSegmentWrite(20);
+                Log.d("timer", "new timer");
+                for (int i = 20; i >= 0; i--) {
+                    SSegmentWrite(i);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        break;
+                    }
+                }
             }
         });
         timer.start();

@@ -20,10 +20,7 @@ Java_com_cnlab_caucse_chessteample_GameActivity_SSegmentWrite(JNIEnv *jenv, jobj
         return -1;
     }
 
-    for (idx = 0; idx <= data; ++idx){
-        num = data - idx;
-        write(dev, &num, sizeof(num));
-    }
+    write(dev, &data, sizeof(data));
 
     close(dev);
 
